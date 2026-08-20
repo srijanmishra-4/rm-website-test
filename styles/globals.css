@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -19,8 +20,11 @@
   --color-hero-mid: #e3fff2;
   --color-hero-end: #d6fff9;
 
-  --font-display: Recoleta, serif;
-  --font-body: var(--font-poppins), sans-serif;
+  /* Inter is the single global UI face; `display` stays a separate token so the
+     existing type hierarchy keeps its own weights/tracking. */
+  --font-body:
+    Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-body);
 
   --text-tiny: 0.75rem;
   --text-small: 0.875rem;
@@ -62,38 +66,6 @@
   --space-large: var(--spacing-large);
   --space-xlarge: var(--spacing-xlarge);
   --space-xxlarge: var(--spacing-xxlarge);
-}
-
-@font-face {
-  font-family: Recoleta;
-  src: url("/fonts/Recoleta-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Recoleta;
-  src: url("/fonts/Recoleta-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Recoleta;
-  src: url("/fonts/Recoleta-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Recoleta;
-  src: url("/fonts/Recoleta-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
 }
 
 *,

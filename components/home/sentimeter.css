@@ -1,6 +1,6 @@
 /* Sentimeter — compact two-column market-mood section.
-   Visual language follows the original RichMonks site: Recoleta display type,
-   Poppins UI type, navy/magenta brand accents and a light green-tinted stage. */
+   Visual language follows the original RichMonks site: navy/magenta brand
+   accents and a light green-tinted stage. */
 
 .sentimeter-section {
   --sm-navy: #222b78;
@@ -11,9 +11,9 @@
   --sm-ink-muted: rgba(36, 36, 36, 0.6);
   --sm-ink-faint: rgba(36, 36, 36, 0.42);
 
-  /* Extra top/bottom space so the section reads as distinct from Hero
-     without growing into a tall, empty block. */
-  padding: clamp(5rem, 9vw, 7.5rem) 0;
+  /* Generous space off the Hero above, tighter below so the FNO section that
+     follows reads as part of the same stretch of page. */
+  padding: clamp(5rem, 9vw, 7.5rem) 0 clamp(2.5rem, 4.5vw, 3.5rem);
   /* Near-white stage: a barely-there fade off the Hero, then paper white. */
   background: linear-gradient(
     180deg,
@@ -306,7 +306,7 @@
 
 @media (max-width: 560px) {
   .sentimeter-section {
-    padding: 4rem 0;
+    padding: 4rem 0 2.25rem;
   }
 
   .sentimeter-panel {

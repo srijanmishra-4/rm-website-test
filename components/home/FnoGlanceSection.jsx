@@ -1,44 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 import "./fno-glance.css";
-
-const FNO_PATH = "FNOAtGlance";
 
 const CARD_DEFINITIONS = [
   {
     label: "Nifty Futures",
-    valueField: "nifty_close",
-    changeField: "nifty_change_percent",
+    resultKey: "NIFTY",
   },
   {
     label: "All Stocks Profit Per Lot",
-    valueField: "plp",
-    changeField: "plp_per",
-    featured: true,
+    resultKey: "ppl",
   },
   {
     label: "Bank Nifty Futures",
-    valueField: "bn_close",
-    changeField: "banknifty_change_percent",
+    resultKey: "BANKNIFTY",
   },
 ];
 
-function getFnoUrl() {
-  const base = process.env.NEXT_PUBLIC_MARKET_API_BASE_URL?.trim();
-  return base ? `${base.replace(/\/$/, "")}/${FNO_PATH}` : null;
-}
-
-function normalizeFnoResponse(data) {
-  const result = data?.result?.[0];
-  if (!result) return null;
+function cardsFromGlanceData(glanceData) {
+  if (!glanceData) return null;
 
   const cards = CARD_DEFINITIONS.map((card) => ({
     ...card,
-    value: Number(result[card.valueField]),
-    change: Number(result[card.changeField]),
+    value: Number(glanceData[card.resultKey]?.price),
+    change: Number(glanceData[card.resultKey]?.price_change),
   }));
 
   return cards.every(
@@ -48,25 +35,6 @@ function normalizeFnoResponse(data) {
     : null;
 }
 
-async function fetchFnoData(signal) {
-  const url = getFnoUrl();
-  if (!url) {
-    throw new Error("Market API base URL is not configured");
-  }
-
-  const response = await fetch(url, { cache: "no-store", signal });
-  if (!response.ok) {
-    throw new Error(`FNO request failed with status ${response.status}`);
-  }
-
-  const cards = normalizeFnoResponse(await response.json());
-  if (!cards) {
-    throw new Error("FNO response did not contain the expected market values");
-  }
-
-  return cards;
-}
-
 function formatValue(value) {
   return new Intl.NumberFormat("en-IN", {
     maximumFractionDigits: 2,
@@ -74,146 +42,154 @@ function formatValue(value) {
 }
 
 function formatChange(change) {
-  const sign = change >= 0 ? "+" : "";
+  const sign = change > 0 ? "+" : "";
   return `${sign}${change.toFixed(2)}%`;
+}
+
+/**
+ * Direction is driven solely by price_change — never by the price itself.
+ * There is no flat/neutral trend asset, so a zero change reuses the upward
+ * graph desaturated to grey rather than reading as a gain.
+ */
+function trendState(change) {
+  if (change > 0) {
+    return {
+      src: "/assets/Images/graph_profit.svg",
+      width: 88,
+      height: 48,
+      imageClass: "",
+      accentBg: "bg-green",
+      accentText: "text-green",
+      arrow: "↑",
+      alt: "Price increased",
+    };
+  }
+
+  if (change < 0) {
+    return {
+      src: "/assets/Images/graph_loss.svg",
+      width: 98,
+      height: 70,
+      imageClass: "",
+      accentBg: "bg-red",
+      accentText: "text-red",
+      arrow: "↓",
+      alt: "Price decreased",
+    };
+  }
+
+  return {
+    src: "/assets/Images/graph_profit.svg",
+    width: 88,
+    height: 48,
+    imageClass: "grayscale opacity-40",
+    accentBg: "bg-[#c7cad1]",
+    accentText: "text-[#6b7280]",
+    arrow: "",
+    alt: "Price unchanged",
+  };
 }
 
 function MarketCard({ card, loading }) {
   const hasData =
     Number.isFinite(card?.value) && Number.isFinite(card?.change);
-  const isPositive = hasData && card.change >= 0;
+  const trend = trendState(hasData ? card.change : 0);
 
   return (
     <article
       className={[
-        "group relative min-h-[15.5rem] overflow-hidden rounded-[1.125rem]",
-        "border border-primary/10 bg-white px-[clamp(1.4rem,2.5vw,2rem)] py-[clamp(1.5rem,2.8vw,2.15rem)]",
-        "shadow-[0_12px_38px_rgba(34,43,120,0.07)] transition-[transform,box-shadow] duration-300",
-        "motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_18px_42px_rgba(34,43,120,0.1)]",
-        card?.featured
-          ? "lg:-translate-y-4 lg:motion-safe:hover:-translate-y-5"
-          : "",
+        "relative flex h-full flex-col overflow-hidden rounded-[12px]",
+        "border border-[#ececef] bg-[#fafafb] px-[24px] pt-[24px] pb-[20px]",
+        "shadow-[0_1px_3px_rgba(16,24,40,0.06),0_1px_2px_rgba(16,24,40,0.04)]",
+        "transition-[transform,box-shadow] duration-300",
+        "hover:shadow-[0_2px_6px_rgba(16,24,40,0.08),0_1px_2px_rgba(16,24,40,0.05)]",
+        "motion-safe:hover:-translate-y-0.5",
       ].join(" ")}
     >
-      <div
-        className={`absolute inset-x-0 top-0 h-[3px] ${
-          !hasData
-            ? `bg-primary/15${loading ? " animate-pulse" : ""}`
-            : isPositive
-              ? "bg-green"
-              : "bg-red"
+      <span
+        className={`absolute inset-x-0 top-0 h-[4px] rounded-t-[12px] ${
+          hasData ? trend.accentBg : `bg-[#e4e6ea]${loading ? " animate-pulse" : ""}`
         }`}
         aria-hidden="true"
       />
 
-      <div className="flex h-full flex-col">
-        <div className="flex min-h-12 items-start justify-between gap-4">
-          <h3 className="m-0 max-w-[14rem] font-body text-[0.75rem] leading-[1.55] font-semibold tracking-[0.13em] text-primary uppercase">
-            {card?.label}
-          </h3>
+      <h3 className="m-0 mb-[6px] font-body text-[11px] leading-[1.4] font-semibold tracking-[0.6px] text-[#6b7280] uppercase">
+        {card?.label}
+      </h3>
 
-          {hasData && (
+      <span
+        className={`mb-[20px] block h-[2px] w-[20px] rounded-[1px] ${
+          hasData ? trend.accentBg : "bg-[#e4e6ea]"
+        }`}
+        aria-hidden="true"
+      />
+
+      <div className="flex w-full items-center justify-between gap-[12px]">
+        <span className="block h-[22px] w-[28px] shrink-0">
+          {!hasData ? (
             <span
-              className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full ${
-                isPositive ? "bg-green/10" : "bg-red/8"
-              }`}
-            >
-              <Image
-                src={
-                  isPositive
-                    ? "/assets/Images/graph_profit.svg"
-                    : "/assets/Images/graph_loss.svg"
-                }
-                alt=""
-                width={isPositive ? 88 : 98}
-                height={isPositive ? 48 : 70}
-                className="h-auto w-5"
-              />
+              className={`block h-full w-full rounded-[4px] bg-primary/6${loading ? " animate-pulse" : ""}`}
+            />
+          ) : (
+            <Image
+              src={trend.src}
+              alt={trend.alt}
+              width={trend.width}
+              height={trend.height}
+              className={`h-full w-full object-contain ${trend.imageClass}`}
+            />
+          )}
+        </span>
+
+        {!hasData ? (
+          <span
+            className={`block h-[28px] w-[9rem] rounded-[6px] bg-primary/6${loading ? " animate-pulse" : ""}`}
+            aria-label={
+              loading ? "Loading market value" : "Market value unavailable"
+            }
+          />
+        ) : (
+          <p className="m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
+            ₹{formatValue(card.value)}
+          </p>
+        )}
+      </div>
+
+      {!hasData ? (
+        <span
+          className={`mt-[6px] ml-auto block h-[18px] w-[4.5rem] rounded-[4px] bg-primary/5${loading ? " animate-pulse" : ""}`}
+          aria-hidden="true"
+        />
+      ) : (
+        <p
+          className={`m-0 mt-[6px] flex w-full items-center justify-end gap-[4px] text-[13px] leading-[1.35] font-bold tabular-nums ${trend.accentText}`}
+        >
+          {formatChange(card.change)}
+          {trend.arrow && (
+            <span aria-hidden="true" className="text-[12px] leading-none">
+              {trend.arrow}
             </span>
           )}
-        </div>
-
-        <div className="mt-auto pt-8">
-          {!hasData ? (
-            <div
-              aria-label={
-                loading ? "Loading market value" : "Market value unavailable"
-              }
-            >
-              <div
-                className={`h-10 w-36 rounded-md bg-primary/8${loading ? " animate-pulse" : ""}`}
-              />
-              <div
-                className={`mt-3 h-5 w-20 rounded bg-primary/6${loading ? " animate-pulse" : ""}`}
-              />
-            </div>
-          ) : (
-            <>
-              <p className="m-0 font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-none font-semibold tracking-[-0.025em] text-text-primary tabular-nums">
-                {formatValue(card.value)}
-              </p>
-              <div
-                className={`mt-4 flex items-center gap-2 text-[0.875rem] font-semibold tabular-nums ${
-                  isPositive ? "text-green" : "text-red"
-                }`}
-              >
-                <span>{formatChange(card.change)}</span>
-                <Image
-                  src={
-                    isPositive
-                      ? "/assets/Images/graph_profit.svg"
-                      : "/assets/Images/graph_loss.svg"
-                  }
-                  alt={isPositive ? "Price increased" : "Price decreased"}
-                  width={isPositive ? 88 : 98}
-                  height={isPositive ? 48 : 70}
-                  className="h-auto w-10"
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+        </p>
+      )}
     </article>
   );
 }
 
-export default function FnoGlanceSection() {
-  const [requestKey, setRequestKey] = useState(0);
-  const [state, setState] = useState({
-    status: "loading",
-    cards: CARD_DEFINITIONS,
-  });
-
-  useEffect(() => {
-    let active = true;
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 10000);
-
-    setState({ status: "loading", cards: CARD_DEFINITIONS });
-
-    fetchFnoData(controller.signal)
-      .then((cards) => {
-        if (active) setState({ status: "success", cards });
-      })
-      .catch(() => {
-        if (active) setState({ status: "error", cards: CARD_DEFINITIONS });
-      })
-      .finally(() => window.clearTimeout(timeout));
-
-    return () => {
-      active = false;
-      window.clearTimeout(timeout);
-      controller.abort();
-    };
-  }, [requestKey]);
-
-  const loading = state.status === "loading";
+export default function FnoGlanceSection({
+  glanceData,
+  glanceStatus,
+  onRetry,
+}) {
+  const cards = cardsFromGlanceData(glanceData);
+  const loading = glanceStatus === "loading";
+  const status =
+    glanceStatus === "success" && !cards ? "error" : glanceStatus;
 
   return (
     <section
       aria-labelledby="fno-glance-heading"
-      className="overflow-hidden bg-white px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(5rem,9vw,8rem)] pb-[clamp(5rem,9vw,8rem)]"
+      className="overflow-hidden bg-white px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(2.75rem,4.5vw,4rem)] pb-[clamp(4.5rem,8vw,7rem)]"
     >
       <div className="mx-auto w-full max-w-[78rem]">
         <div className="mx-auto max-w-2xl text-center">
@@ -231,7 +207,7 @@ export default function FnoGlanceSection() {
         </div>
 
         <div
-          className="fno-flight-path relative mx-auto mt-[clamp(2.25rem,4.5vw,3.75rem)] mb-[clamp(1.875rem,3vw,2.75rem)] h-[clamp(5.5rem,11vw,8.5rem)] max-w-[62rem]"
+          className="fno-flight-path relative mx-auto mt-[clamp(1.75rem,3.4vw,2.75rem)] mb-[clamp(1.5rem,2.6vw,2.25rem)] h-[clamp(5.5rem,11vw,8.5rem)] max-w-[62rem]"
           aria-hidden="true"
         >
           <Image
@@ -257,13 +233,13 @@ export default function FnoGlanceSection() {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-          {state.cards.map((card, index) => (
+        <div className="mx-auto grid w-full max-w-[70.5rem] grid-cols-1 gap-[24px] sm:grid-cols-2 lg:grid-cols-3">
+          {(cards ?? CARD_DEFINITIONS).map((card, index) => (
             <div
               key={card.label}
               className={
                 index === 2
-                  ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.875rem)] lg:col-span-1 lg:mx-0 lg:w-auto"
+                  ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.75rem)] lg:col-span-1 lg:mx-0 lg:w-auto"
                   : ""
               }
             >
@@ -272,7 +248,7 @@ export default function FnoGlanceSection() {
           ))}
         </div>
 
-        {state.status === "error" && (
+        {status === "error" && (
           <p
             className="mt-[clamp(2.25rem,4vw,3.25rem)] flex items-center justify-center gap-2 text-center text-small text-text-primary/60"
             role="status"
@@ -280,7 +256,7 @@ export default function FnoGlanceSection() {
             Live market data is temporarily unavailable.
             <button
               type="button"
-              onClick={() => setRequestKey((key) => key + 1)}
+              onClick={onRetry}
               className="cursor-pointer border-0 border-b border-primary bg-transparent p-0 font-body text-small font-semibold text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
               Try again

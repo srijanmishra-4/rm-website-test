@@ -1,21 +1,16 @@
 # Asset & config drop-in paths
 
 Place files at these **exact** paths. No code changes required once they land
-(logo uses `/assets/Brand/logo.png`; Recoleta is already wired in
-`styles/globals.css`).
+(logo uses `/assets/Brand/logo.png`).
 
 ## Required (currently missing)
 
 | File | Drop-in path | Used by |
 |---|---|---|
 | Brand logo | `public/assets/Brand/logo.png` | Navbar (falls back to a “RichMonks / TRUST. TRADE. EARN.” wordmark until present) |
-| Recoleta Regular (400) | `public/fonts/Recoleta-Regular.woff2` | Display / headlines (`@font-face` in `styles/globals.css`) |
-| Recoleta Medium (500) | `public/fonts/Recoleta-Medium.woff2` | Same |
-| Recoleta SemiBold (600) | `public/fonts/Recoleta-SemiBold.woff2` | Same |
-| Recoleta Bold (700) | `public/fonts/Recoleta-Bold.woff2` | Same |
 
-Until Recoleta files exist the browser falls back to `serif`, so the hero
-headline renders a few percent narrower than the live site.
+Typography needs no drop-in files: Inter is the single global font, loaded from
+Google Fonts in `styles/globals.css`.
 
 ## Already present (no action)
 

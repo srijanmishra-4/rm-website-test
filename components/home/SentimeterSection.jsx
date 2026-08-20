@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 import {
   SENTIMENT_STATES,
-  fetchSentimeterReading,
   getNeedleAngle,
+  normalizeSentimeterResponse,
 } from "@/lib/sentimeter";
 
 import "./sentimeter.css";
@@ -130,14 +130,16 @@ function SentimeterGauge({ reading, status }) {
   );
 }
 
-export default function SentimeterSection() {
+export default function SentimeterSection({
+  glanceData,
+  glanceStatus,
+  onRetry,
+}) {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [requestKey, setRequestKey] = useState(0);
-  const [state, setState] = useState({
-    status: "loading",
-    reading: null,
-  });
+  const reading = normalizeSentimeterResponse(glanceData);
+  const status =
+    glanceStatus === "success" && !reading ? "error" : glanceStatus;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -156,31 +158,6 @@ export default function SentimeterSection() {
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    let active = true;
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 10000);
-
-    setState({ status: "loading", reading: null });
-
-    fetchSentimeterReading({ signal: controller.signal })
-      .then((reading) => {
-        if (active) setState({ status: "success", reading });
-      })
-      .catch(() => {
-        if (active) setState({ status: "error", reading: null });
-      })
-      .finally(() => window.clearTimeout(timeout));
-
-    return () => {
-      active = false;
-      window.clearTimeout(timeout);
-      controller.abort();
-    };
-  }, [requestKey]);
-
-  const { status, reading } = state;
 
   return (
     <section
@@ -221,7 +198,7 @@ export default function SentimeterSection() {
           {status === "error" && (
             <p className="sentimeter-panel__error" role="status">
               Live reading unavailable.
-              <button type="button" onClick={() => setRequestKey((k) => k + 1)}>
+              <button type="button" onClick={onRetry}>
                 Try again
               </button>
             </p>
