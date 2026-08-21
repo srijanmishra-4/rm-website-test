@@ -42,17 +42,16 @@ function formatValue(value) {
 }
 
 function formatChange(change) {
-  const sign = change > 0 ? "+" : "";
+  const sign = change >= 0 ? "+" : "";
   return `${sign}${change.toFixed(2)}%`;
 }
 
 /**
  * Direction is driven solely by price_change — never by the price itself.
- * There is no flat/neutral trend asset, so a zero change reuses the upward
- * graph desaturated to grey rather than reading as a gain.
+ * >= 0 is green (profit/up), < 0 is red (loss/down).
  */
 function trendState(change) {
-  if (change > 0) {
+  if (change >= 0) {
     return {
       src: "/assets/Images/graph_profit.svg",
       width: 88,
@@ -65,28 +64,15 @@ function trendState(change) {
     };
   }
 
-  if (change < 0) {
-    return {
-      src: "/assets/Images/graph_loss.svg",
-      width: 98,
-      height: 70,
-      imageClass: "",
-      accentBg: "bg-red",
-      accentText: "text-red",
-      arrow: "↓",
-      alt: "Price decreased",
-    };
-  }
-
   return {
-    src: "/assets/Images/graph_profit.svg",
-    width: 88,
-    height: 48,
-    imageClass: "grayscale opacity-40",
-    accentBg: "bg-[#c7cad1]",
-    accentText: "text-[#6b7280]",
-    arrow: "",
-    alt: "Price unchanged",
+    src: "/assets/Images/graph_loss.svg",
+    width: 98,
+    height: 70,
+    imageClass: "",
+    accentBg: "bg-red",
+    accentText: "text-red",
+    arrow: "↓",
+    alt: "Price decreased",
   };
 }
 
@@ -124,11 +110,11 @@ function MarketCard({ card, loading }) {
         aria-hidden="true"
       />
 
-      <div className="flex w-full items-center justify-between gap-[12px]">
-        <span className="block h-[22px] w-[28px] shrink-0">
+      <div className="flex w-full items-center justify-between gap-[16px]">
+        <span className="flex shrink-0 items-center">
           {!hasData ? (
             <span
-              className={`block h-full w-full rounded-[4px] bg-primary/6${loading ? " animate-pulse" : ""}`}
+              className={`block h-[26px] w-[46px] rounded-[4px] bg-primary/6${loading ? " animate-pulse" : ""}`}
             />
           ) : (
             <Image
@@ -136,42 +122,44 @@ function MarketCard({ card, loading }) {
               alt={trend.alt}
               width={trend.width}
               height={trend.height}
-              className={`h-full w-full object-contain ${trend.imageClass}`}
+              className={`h-[26px] w-auto max-w-[48px] object-contain ${trend.imageClass}`}
             />
           )}
         </span>
 
-        {!hasData ? (
-          <span
-            className={`block h-[28px] w-[9rem] rounded-[6px] bg-primary/6${loading ? " animate-pulse" : ""}`}
-            aria-label={
-              loading ? "Loading market value" : "Market value unavailable"
-            }
-          />
-        ) : (
-          <p className="m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
-            ₹{formatValue(card.value)}
-          </p>
-        )}
-      </div>
-
-      {!hasData ? (
-        <span
-          className={`mt-[6px] ml-auto block h-[18px] w-[4.5rem] rounded-[4px] bg-primary/5${loading ? " animate-pulse" : ""}`}
-          aria-hidden="true"
-        />
-      ) : (
-        <p
-          className={`m-0 mt-[6px] flex w-full items-center justify-end gap-[4px] text-[13px] leading-[1.35] font-bold tabular-nums ${trend.accentText}`}
-        >
-          {formatChange(card.change)}
-          {trend.arrow && (
-            <span aria-hidden="true" className="text-[12px] leading-none">
-              {trend.arrow}
-            </span>
+        <div className="flex flex-col items-end">
+          {!hasData ? (
+            <span
+              className={`block h-[28px] w-[9rem] rounded-[6px] bg-primary/6${loading ? " animate-pulse" : ""}`}
+              aria-label={
+                loading ? "Loading market value" : "Market value unavailable"
+              }
+            />
+          ) : (
+            <p className="m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
+              ₹{formatValue(card.value)}
+            </p>
           )}
-        </p>
-      )}
+
+          {!hasData ? (
+            <span
+              className={`mt-[6px] block h-[18px] w-[4.5rem] rounded-[4px] bg-primary/5${loading ? " animate-pulse" : ""}`}
+              aria-hidden="true"
+            />
+          ) : (
+            <p
+              className={`m-0 mt-[6px] flex items-center justify-end gap-[4px] text-[13px] leading-[1.35] font-bold tabular-nums ${trend.accentText}`}
+            >
+              {formatChange(card.change)}
+              {trend.arrow && (
+                <span aria-hidden="true" className="text-[12px] leading-none">
+                  {trend.arrow}
+                </span>
+              )}
+            </p>
+          )}
+        </div>
+      </div>
     </article>
   );
 }

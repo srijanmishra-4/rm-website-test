@@ -1,0 +1,220 @@
+/* ═══════════════════════════════════════════════════════════════
+   OUR FOUNDATION — Editorial section styling
+   Premium card composition with deliberate visual hierarchy
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Section ── */
+
+.foundation-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #ffffff;
+  padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+}
+
+/* Extremely subtle dot grid — barely perceptible texture */
+.foundation-dots {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(34, 43, 120, 0.03) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  mask-image: radial-gradient(
+    ellipse 75% 60% at 50% 45%,
+    #000 0%,
+    transparent 72%
+  );
+}
+
+/* Ambient radial warmth */
+.foundation-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(52rem 26rem at 50% 30%, rgba(33, 169, 71, 0.02), transparent 70%),
+    radial-gradient(40rem 22rem at 82% 92%, rgba(34, 43, 120, 0.015), transparent 65%);
+}
+
+/* ── Section heading ── */
+
+.foundation-heading {
+  margin: clamp(1.15rem, 2vw, 1.65rem) auto 0;
+  max-width: 22ch;
+  text-wrap: balance;
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+/* ── Cards grid ── */
+
+.foundation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: clamp(2.75rem, 4.5vw, 3.75rem);
+}
+
+@media (min-width: 768px) {
+  .foundation-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* ── Card ── */
+
+.foundation-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(1.75rem, 2.5vw, 2.25rem);
+  background: #fff;
+  border: 1px solid rgba(34, 43, 120, 0.07);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.025),
+    0 4px 12px rgba(34, 43, 120, 0.04),
+    0 14px 32px rgba(34, 43, 120, 0.03);
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+  animation: foundation-card-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.foundation-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(33, 169, 71, 0.18);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.025),
+    0 8px 20px rgba(34, 43, 120, 0.06),
+    0 22px 44px rgba(34, 43, 120, 0.045);
+}
+
+/* Top accent bar — subtle green gradient */
+.foundation-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 2px;
+  background: linear-gradient(90deg, #21a947 0%, #41de6d 55%, transparent 100%);
+  border-radius: 0 0 2px 2px;
+  opacity: 0.4;
+  transition: opacity 0.35s ease;
+}
+
+.foundation-card:hover::before {
+  opacity: 0.85;
+}
+
+/* ── Card internals ── */
+
+.foundation-icon-box {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: rgba(33, 169, 71, 0.07);
+  border: 1px solid rgba(33, 169, 71, 0.1);
+  color: #21a947;
+}
+
+.foundation-number {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: rgba(34, 43, 120, 0.055);
+  user-select: none;
+}
+
+.foundation-title {
+  margin: clamp(1.15rem, 1.8vw, 1.5rem) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.foundation-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: 0.75rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(34, 43, 120, 0.08);
+  background: #fafafb;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(36, 36, 36, 0.68);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.foundation-card:hover .foundation-pill {
+  border-color: rgba(33, 169, 71, 0.2);
+  background: rgba(33, 169, 71, 0.04);
+}
+
+.foundation-divider {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin-top: clamp(1rem, 1.5vw, 1.25rem);
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(33, 169, 71, 0.55),
+    rgba(33, 169, 71, 0.1)
+  );
+}
+
+.foundation-body {
+  margin: clamp(0.875rem, 1.4vw, 1.125rem) 0 0;
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.78;
+  color: rgba(36, 36, 36, 0.6);
+}
+
+/* ── Entrance animation ── */
+
+@keyframes foundation-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .foundation-card {
+    animation: none;
+  }
+}

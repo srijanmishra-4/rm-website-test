@@ -1,0 +1,104 @@
+/* ═══════════════════════════════════════════════════════════════
+   ABOUT HERO — Greenish ambient background & edge-to-edge watermark
+   ═══════════════════════════════════════════════════════════════ */
+
+.about-hero-section {
+  background-color: #f6faf6; /* Soft greenish tint */
+}
+
+/* Greenish ambient background glow */
+.about-hero-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(65rem 32rem at 50% -2rem, rgba(33, 169, 71, 0.07), transparent 70%),
+    radial-gradient(55rem 28rem at 85% 105%, rgba(34, 43, 120, 0.03), transparent 72%),
+    radial-gradient(45rem 24rem at 12% 95%, rgba(33, 169, 71, 0.04), transparent 68%);
+}
+
+/* Subtle dot texture */
+.about-hero-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(33, 169, 71, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  mask-image: radial-gradient(
+    ellipse 80% 65% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 65% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+}
+
+/* Watermark wrapper spanning full width edge to edge */
+.about-hero-watermark-wrap {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Spread wide across full width, visible atmospheric watermark that does not fight heading */
+.about-hero-watermark {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 13vw, 12.5rem);
+  font-weight: 800;
+  letter-spacing: clamp(0.12em, 2.5vw, 0.28em);
+  text-transform: uppercase;
+  color: rgba(34, 43, 120, 0.045); /* Balanced opacity: clearly visible yet non-interfering */
+  white-space: nowrap;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 18%,
+    rgba(0, 0, 0, 0.9) 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 18%,
+    rgba(0, 0, 0, 0.9) 82%,
+    transparent 100%
+  );
+  animation: about-hero-watermark-in 1.2s ease-out 0.15s both;
+}
+
+@keyframes about-hero-watermark-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-hero-watermark {
+    animation: none;
+  }
+}

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -20,11 +20,11 @@
   --color-hero-mid: #e3fff2;
   --color-hero-end: #d6fff9;
 
-  /* Inter is the single global UI face; `display` stays a separate token so the
-     existing type hierarchy keeps its own weights/tracking. */
   --font-body:
     Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-body);
+  --font-serif:
+    "Playfair Display", "Lora", Georgia, Cambria, "Times New Roman", Times, serif;
 
   --text-tiny: 0.75rem;
   --text-small: 0.875rem;
@@ -76,6 +76,7 @@
 
 html {
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 @media (max-width: 991px) {

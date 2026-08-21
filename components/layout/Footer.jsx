@@ -5,8 +5,8 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Approach", href: "/approach" },
-  { label: "Team", href: "/team" },
-  { label: "Contact", href: "/contact" },
+  // { label: "Team", href: "/team" }, // Removed per request
+  { label: "Contact", href: "/connect" },
 ];
 
 const EMAIL = "info@richmonks.in";
@@ -158,9 +158,27 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-[clamp(1.875rem,3.2vw,2.5rem)] flex flex-col gap-1.5 border-t border-white/12 pt-[clamp(1rem,1.8vw,1.25rem)] sm:flex-row sm:items-center sm:justify-between">
+        {/* ── Legal & Disclaimer footer summary ── */}
+        <div className="mt-[clamp(1.5rem,2.5vw,2rem)] border-t border-white/10 pt-[clamp(1.125rem,1.8vw,1.5rem)]">
+          <p className="m-0 mb-1.5 font-body text-[0.6875rem] font-semibold tracking-[0.12em] text-[#91a3ac] uppercase">
+            Legal &amp; Disclaimer
+          </p>
+          <p className="m-0 max-w-[52rem] font-body text-[0.75rem] leading-[1.72] text-[#6b7e87]">
+            Richmonks does not solicit investment or provide trading services through this website. All content is provided for informational and educational purposes only. For full legal terms, disclaimers, privacy information, and intellectual-property notices, please review our Legal &amp; Disclaimer page.
+          </p>
+          <p className="m-0 mt-2">
+            <Link
+              href="/legal"
+              className="font-body text-[0.75rem] font-medium text-green/75 no-underline transition-colors hover:text-green"
+            >
+              Read Full Legal &amp; Disclaimer →
+            </Link>
+          </p>
+        </div>
+
+        <div className="mt-[clamp(1.25rem,2vw,1.75rem)] flex flex-col gap-1.5 border-t border-white/8 pt-[clamp(0.875rem,1.4vw,1rem)] sm:flex-row sm:items-center sm:justify-between">
           <p className="m-0 font-body text-[0.75rem] text-[#91a3ac]">
-            © 2025 Richmonks. All rights reserved.
+            © 2026 Richmonks. All rights reserved.
           </p>
           <p className="m-0 font-body text-[0.75rem] text-[#91a3ac]">
             Built with precision.

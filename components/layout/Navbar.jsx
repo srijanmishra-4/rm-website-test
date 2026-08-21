@@ -6,10 +6,11 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 const NAV_LINKS = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Approach", href: "/approach" },
-  { label: "Team", href: "/team" },
-  { label: "Contact", href: "/contact" },
+  // { label: "Team", href: "/team" }, // Removed per request
+  { label: "Contact", href: "/connect" },
 ];
 
 const DOWNLOAD_HREF = "#download";
@@ -23,6 +24,9 @@ function isActivePath(pathname, href) {
   if (!pathname) return false;
   const normalized = pathname.replace(/\/$/, "") || "/";
   const target = href.replace(/\/$/, "") || "/";
+  if (target === "/") {
+    return normalized === "/";
+  }
   return normalized === target || normalized.startsWith(`${target}/`);
 }
 
@@ -103,7 +107,11 @@ export default function Navbar() {
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
+    const onScroll = () => {
+  setScrolled(window.scrollY > SCROLL_THRESHOLD);
+  // Close mobile drawer if open to avoid overlay appearing on scroll
+  if (mobileOpen) setMobileOpen(false);
+};
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -217,8 +225,8 @@ export default function Navbar() {
         aria-modal={mobileOpen}
         aria-label="Site navigation"
         inert={!mobileOpen}
-        className={`fixed top-0 right-0 z-50 flex h-full w-[min(20rem,86vw)] flex-col bg-white shadow-[-8px_0_30px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-out lg:hidden ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 z-50 flex h-full w-[min(20rem,86vw)] flex-col bg-white shadow-[-8px_0_30px_rgba(0,0,0,0.12)] transition-[transform,visibility] duration-300 ease-out lg:hidden ${
+          mobileOpen ? "visible translate-x-0" : "invisible translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">

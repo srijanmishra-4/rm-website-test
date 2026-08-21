@@ -1,0 +1,162 @@
+/* ═══════════════════════════════════════════════════════════════
+   APPROACH HERO — Styling matching About Hero design language
+   Soft greenish background, ambient glow, edge-to-edge watermark,
+   process capsule, and structured badges
+   ═══════════════════════════════════════════════════════════════ */
+
+.approach-hero-section {
+  background-color: #f6faf6; /* Soft greenish tint matching About Hero */
+}
+
+/* Greenish ambient background glow */
+.approach-hero-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(65rem 32rem at 50% -2rem, rgba(33, 169, 71, 0.07), transparent 70%),
+    radial-gradient(55rem 28rem at 85% 105%, rgba(34, 43, 120, 0.03), transparent 72%),
+    radial-gradient(45rem 24rem at 12% 95%, rgba(33, 169, 71, 0.04), transparent 68%);
+}
+
+/* Subtle dot texture */
+.approach-hero-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(33, 169, 71, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  mask-image: radial-gradient(
+    ellipse 80% 65% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 65% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+}
+
+/* Watermark wrapper spanning full width edge to edge */
+.approach-hero-watermark-wrap {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Atmospheric watermark matching About Hero */
+.approach-hero-watermark {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 13vw, 12.5rem);
+  font-weight: 800;
+  letter-spacing: clamp(0.12em, 2.5vw, 0.28em);
+  text-transform: uppercase;
+  color: rgba(34, 43, 120, 0.045);
+  white-space: nowrap;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 18%,
+    rgba(0, 0, 0, 0.9) 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 18%,
+    rgba(0, 0, 0, 0.9) 82%,
+    transparent 100%
+  );
+  animation: approach-hero-watermark-in 1.2s ease-out 0.15s both;
+}
+
+@keyframes approach-hero-watermark-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Process Pill Capsule (RESEARCH → MODEL → EXECUTE → REFINE) */
+.approach-process-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 113, 169, 0.18);
+  box-shadow: 0 1px 3px rgba(34, 43, 120, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.approach-process-step {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.approach-process-arrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-green);
+  user-select: none;
+}
+
+/* Hero Badges */
+.approach-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid #ececef;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  line-height: 1;
+  font-weight: 600;
+  color: rgba(36, 36, 36, 0.78);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.approach-badge:hover {
+  border-color: rgba(33, 169, 71, 0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(34, 43, 120, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approach-hero-watermark {
+    animation: none;
+  }
+}

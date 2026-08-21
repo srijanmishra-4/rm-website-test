@@ -1,0 +1,450 @@
+/* ═══════════════════════════════════════════════════════════════
+   OUR EDGE SECTION
+   Pixel-accurate editorial layout matching target design specifications
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section Wrapper ── */
+.edge-section {
+  position: relative;
+  width: 100%;
+  background-color: #ebecef; /* Darker shaded off-white so white cards stand out cleanly */
+  padding: 96px 1.5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .edge-section {
+    padding: 64px 1rem;
+  }
+}
+
+.edge-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* ── 2. Eyebrow Label ── */
+.edge-eyebrow-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.edge-eyebrow {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #21a947;
+  display: inline-block;
+  text-align: center;
+}
+
+/* ── 3. Main Heading ── */
+.edge-heading {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: clamp(2rem, 3.8vw, 2.75rem); /* ~40-44px desktop */
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: #1e266a;
+}
+
+/* ── 4. Sub-line & Divider ── */
+.edge-subline {
+  margin: 12px 0 0;
+  text-align: center;
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.5;
+  color: #5a7184;
+}
+
+.edge-subline em {
+  font-style: italic;
+}
+
+.edge-divider {
+  width: 48px;
+  height: 2px;
+  background-color: #21a947;
+  border-radius: 9999px;
+  margin: 16px auto 0;
+}
+
+/* ── 5. Body Paragraph ── */
+.edge-body {
+  margin: 20px auto 0;
+  max-width: 640px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.75;
+  color: #5a7184;
+}
+
+/* ── 6. Stat Cards Row ── */
+.edge-stats-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 40px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .edge-stats-row {
+    flex-direction: row;
+  }
+}
+
+.edge-stat-card {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  background-color: #ffffff;
+  border-radius: 16px; /* rounded-2xl */
+  border: 1px solid rgba(34, 43, 120, 0.08);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.02),
+    0 4px 14px rgba(34, 43, 120, 0.035);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.edge-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.03),
+    0 8px 20px rgba(34, 43, 120, 0.06);
+}
+
+/* Left border accent strip ~4px wide */
+.edge-stat-accent-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.edge-stat-accent-strip--green {
+  background-color: #21a947;
+}
+
+.edge-stat-accent-strip--blue {
+  background-color: #0071a9;
+}
+
+/* Icon square ~48px */
+.edge-stat-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.edge-stat-icon-wrap--green {
+  background-color: rgba(33, 169, 71, 0.1);
+  color: #21a947;
+}
+
+.edge-stat-icon-wrap--blue {
+  background-color: rgba(0, 113, 169, 0.1);
+  color: #0071a9;
+}
+
+.edge-stat-icon {
+  display: block;
+}
+
+/* Text block to the right */
+.edge-stat-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.edge-stat-value {
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.edge-stat-value--green {
+  color: #21a947;
+}
+
+.edge-stat-value--blue {
+  color: #0071a9;
+}
+
+.edge-stat-caption {
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+/* ── 7. Pill Button ── */
+.edge-pill-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.edge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-radius: 9999px; /* rounded-full */
+  border: 1px solid rgba(34, 43, 120, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  cursor: default;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edge-pill:hover {
+  border-color: rgba(34, 43, 120, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.edge-pill-icon {
+  color: #1e266a;
+  flex-shrink: 0;
+}
+
+.edge-pill-label {
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #1e266a;
+}
+
+/* ── 8. Four-Feature Grid (2x2) ── */
+.edge-grid-container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin-top: 36px;
+}
+
+.edge-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .edge-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Feature Card */
+.edge-card {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 16px; /* rounded-2xl */
+  padding: 24px;
+  border: 1px solid rgba(34, 43, 120, 0.08);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.02),
+    0 4px 16px rgba(34, 43, 120, 0.035);
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.edge-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.03),
+    0 10px 24px rgba(34, 43, 120, 0.06);
+}
+
+/* 4px colored left border accent strip */
+.edge-card-accent-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.edge-card-accent-strip--green {
+  background-color: #21a947;
+}
+
+.edge-card-accent-strip--blue {
+  background-color: #0071a9;
+}
+
+/* Decorative quarter-circle in top-right corner */
+.edge-card-quarter-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 110px;
+  height: 110px;
+  border-bottom-left-radius: 100%;
+  background-color: #1e266a;
+  opacity: 0.06; /* 5-8% low opacity */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Card top row: Icon + Number */
+.edge-card-top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.edge-card-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.edge-card-icon-box--green {
+  background-color: rgba(33, 169, 71, 0.1);
+  color: #21a947;
+}
+
+.edge-card-icon-box--blue {
+  background-color: rgba(0, 113, 169, 0.1);
+  color: #0071a9;
+}
+
+.edge-card-number {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  user-select: none;
+}
+
+/* Card Heading in bold serif */
+.edge-card-heading {
+  margin: 16px 0 0;
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #1e266a;
+  position: relative;
+  z-index: 2;
+}
+
+/* Card Description in sans-serif */
+.edge-card-description {
+  margin: 10px 0 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: #5a7184;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── 9. Connector Circles along Central Vertical Seam ── */
+.edge-seam-connectors {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .edge-seam-connectors {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* Circle A: Hollow outline at midline of Row 1 (~25%) */
+  .edge-connector-circle--top {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 2px solid #94a3b8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Circle B: Solid accent dot at exact center of 2x2 grid (50%, 50%) */
+  .edge-connector-dot--center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #21a947;
+    box-shadow:
+      0 0 0 3px #ffffff,
+      0 0 0 6px rgba(33, 169, 71, 0.2);
+  }
+
+  /* Circle C: Hollow outline at midline of Row 2 (~75%) */
+  .edge-connector-circle--bottom {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 2px solid #94a3b8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+}
