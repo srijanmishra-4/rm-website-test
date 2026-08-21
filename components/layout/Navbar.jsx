@@ -10,10 +10,10 @@ const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Approach", href: "/approach" },
   // { label: "Team", href: "/team" }, // Removed per request
-  { label: "Contact", href: "/connect" },
+  { label: "Contact", href: "/contact" },
 ];
 
-const DOWNLOAD_HREF = "#download";
+const DOWNLOAD_HREF = "#";
 const SCROLL_THRESHOLD = 24;
 
 /* Header and hero share one fluid shell so the logo starts on the same left

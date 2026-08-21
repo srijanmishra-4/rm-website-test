@@ -284,7 +284,7 @@ export default function LegalContent() {
 
             <p className="legal-acceptance-footer">
               © 2026 Richmonks. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;
-              <Link href="/connect">Contact Us</Link>
+              <Link href="/contact">Contact Us</Link>
             </p>
           </div>
 

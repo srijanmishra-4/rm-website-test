@@ -130,7 +130,7 @@ export default function HeroSection() {
             </Link>
 
             <a
-              href="#download"
+              href="#"
               className="group inline-flex h-[clamp(2.875rem,3.3vw,3.125rem)] min-w-[9.75rem] items-center justify-center gap-2.5 rounded-md bg-blue px-6 text-small font-semibold text-text-secondary no-underline transition-[transform,background-color] duration-300 ease-out hover:bg-[#005b87] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue motion-safe:hover:-translate-y-0.5"
             >
               <span>Download App</span>

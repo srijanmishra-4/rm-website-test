@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Approach", href: "/approach" },
   // { label: "Team", href: "/team" }, // Removed per request
-  { label: "Contact", href: "/connect" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const EMAIL = "info@richmonks.in";
@@ -146,11 +146,23 @@ export default function Footer() {
 
           <div>
             <h2 className={HEADING}>Legal</h2>
-            <p className="mt-[0.9375rem] mb-0">
-              <Link href="/legal" className={LINK}>
-                Disclaimer &amp; Legal
-              </Link>
-            </p>
+            <ul className="mt-[0.9375rem] mb-0 flex list-none flex-col gap-2.5 p-0">
+              <li>
+                <Link href="/legal" className={LINK}>
+                  Disclaimer &amp; Legal
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className={LINK}>
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-of-use" className={LINK}>
+                  Terms of Use
+                </Link>
+              </li>
+            </ul>
             <p className="mt-3 mb-0 max-w-[16rem] font-body text-[0.75rem] leading-[1.7] text-[#91a3ac]">
               This website is for informational purposes only and does not
               constitute investment advice.

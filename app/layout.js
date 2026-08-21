@@ -6,6 +6,11 @@ import "../styles/globals.css";
 export const metadata = {
   title: "RichMonks",
   description: "RichMonks F&O analytics",
+  icons: {
+    icon: "/assets/Brand/favicon.png",
+    shortcut: "/assets/Brand/favicon.png",
+    apple: "/assets/Brand/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
