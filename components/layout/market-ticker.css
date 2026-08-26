@@ -1,0 +1,37 @@
+/* Seamless marquee: the track holds two identical runs, so translating by
+   -50% lands exactly on the start of the duplicate run. */
+
+@keyframes market-ticker-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.market-ticker-track {
+  animation: market-ticker-marquee var(--ticker-duration, 45s) linear infinite;
+  will-change: transform;
+}
+
+.market-ticker:hover .market-ticker-track,
+.market-ticker:focus-within .market-ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .market-ticker {
+    overflow-x: auto;
+  }
+
+  .market-ticker-track {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+
+  .market-ticker-duplicate {
+    display: none;
+  }
+}

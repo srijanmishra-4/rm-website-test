@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #222b78;
+  --color-primary-light: #384086;
+  --color-primary-dark: #1e266a;
+  --color-secondary: #c30c69;
+  --color-text-primary: #242424;
+  --color-text-secondary: #fefefe;
+  --color-blue: #0071a9;
+  --color-green: #21a947;
+  --color-green-light: #41de6d;
+  --color-green-dark: #06591d;
+  --color-red: #e20d1a;
+  --color-table-head: #2c333b;
+
+  /* Home hero background: pale green (left) -> pale cyan (right) */
+  --color-hero-start: #f0feed;
+  --color-hero-mid: #e3fff2;
+  --color-hero-end: #d6fff9;
+
+  --font-body:
+    Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-body);
+  --font-serif:
+    "Playfair Display", "Lora", Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --text-tiny: 0.75rem;
+  --text-small: 0.875rem;
+  --text-regular: 1rem;
+  --text-medium: 1.25rem;
+  --text-large: 1.625rem;
+  --text-xlarge: 3.125rem;
+  --text-xxlarge: 4.375rem;
+
+  --spacing-tiny: 5px;
+  --spacing-small: 10px;
+  --spacing-regular: 15px;
+  --spacing-medium: 20px;
+  --spacing-large: 30px;
+  --spacing-xlarge: 45px;
+  --spacing-xxlarge: 60px;
+
+  /* Chrome heights shared by ticker, header and the hero height calc */
+  --spacing-ticker: 2.25rem;
+  --spacing-header: 5rem;
+  --spacing-header-lg: 6.5rem;
+
+  --container-site: 1200px;
+}
+
+:root {
+  --font-tiny: var(--text-tiny);
+  --font-small: var(--text-small);
+  --font-regular: var(--text-regular);
+  --font-medium: var(--text-medium);
+  --font-large: var(--text-large);
+  --font-xlarge: var(--text-xlarge);
+  --font-xxlarge: var(--text-xxlarge);
+
+  --space-tiny: var(--spacing-tiny);
+  --space-small: var(--spacing-small);
+  --space-regular: var(--spacing-regular);
+  --space-medium: var(--spacing-medium);
+  --space-large: var(--spacing-large);
+  --space-xlarge: var(--spacing-xlarge);
+  --space-xxlarge: var(--spacing-xxlarge);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  overflow-x: clip;
+}
+
+@media (max-width: 991px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: #fff;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+::selection {
+  background-color: rgb(33 169 71 / 0.14);
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(0 0 0 / 0.22);
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(0 0 0 / 0.32);
+}

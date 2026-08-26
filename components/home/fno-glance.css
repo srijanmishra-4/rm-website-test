@@ -1,0 +1,77 @@
+.fno-flight-path::before {
+  position: absolute;
+  inset: 48% 8% auto;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(33 169 71 / 0.15) 22%,
+    rgb(34 43 120 / 0.12) 50%,
+    rgb(33 169 71 / 0.15) 78%,
+    transparent
+  );
+}
+
+.fno-flyer {
+  filter: drop-shadow(0 8px 10px rgb(34 43 120 / 0.07));
+  will-change: transform;
+}
+
+.fno-flyer--one {
+  animation: fno-float-one 8s ease-in-out infinite;
+}
+
+.fno-flyer--two {
+  animation: fno-float-two 9.5s ease-in-out -2s infinite;
+}
+
+.fno-flyer--three {
+  animation: fno-float-three 10.5s ease-in-out -4s infinite;
+}
+
+@keyframes fno-float-one {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+  50% {
+    transform: translate3d(0.75rem, -0.4rem, 0) rotate(1deg);
+  }
+}
+
+@keyframes fno-float-two {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0) rotate(0);
+  }
+  50% {
+    transform: translate3d(calc(-50% + 0.5rem), -0.5rem, 0) rotate(-1deg);
+  }
+}
+
+@keyframes fno-float-three {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(1deg);
+  }
+  50% {
+    transform: translate3d(-0.65rem, -0.35rem, 0) rotate(-1deg);
+  }
+}
+
+@media (max-width: 639px) {
+  .fno-flyer--one {
+    left: 1%;
+  }
+
+  .fno-flyer--three {
+    right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fno-flyer {
+    animation: none;
+  }
+}

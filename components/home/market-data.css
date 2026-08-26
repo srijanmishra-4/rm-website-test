@@ -1,0 +1,260 @@
+/* market-data.css
+   Styles for the unified market-data section:
+   FNO at a glance → Sentimeter → Market Pulse → 7-card brick grid.
+   Reuses sentimeter.css and fno-glance.css class names unchanged. */
+
+/* ── Section wrapper ── */
+
+.market-data-section {
+  background: linear-gradient(
+    180deg,
+    rgba(214, 255, 249, 0.18) 0%,
+    #fbfbfb 18%,
+    #ffffff 100%
+  );
+  color: #242424;
+  overflow: hidden;
+}
+
+/* ── Top heading: FNO at a glance ── */
+
+.market-data-section__heading {
+  padding: clamp(2rem, 3.5vw, 3rem) clamp(1.25rem, 3.5vw, 3.5rem) 0;
+  text-align: center;
+}
+
+.market-data-section__heading h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.125rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: #242424;
+}
+
+.market-data-section__heading-line {
+  display: block;
+  width: 2.75rem;
+  height: 3px;
+  border-radius: 9999px;
+  background: var(--color-green, #21a947);
+  margin: 0.75rem auto 0;
+}
+
+/* ── Sentimeter sub-area ── */
+
+.market-data-section__sentimeter {
+  /* Uses the same padding cadence as the original sentimeter section, but
+     without top padding (the heading above provides it). */
+  padding: clamp(1.75rem, 3vw, 2.75rem) 0 clamp(2.5rem, 4.5vw, 3.5rem);
+}
+
+/* ── Market Pulse sub-area ── */
+
+.market-data-section__pulse {
+  padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4.5rem, 8vw, 7rem);
+}
+
+.market-data-section__pulse-inner {
+  max-width: 78rem;
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* ── Responsive 7-card grid ── */
+
+.market-pulse-grid {
+  --card-gap: 24px;
+  width: 100%;
+  max-width: 70.5rem;
+  margin-inline: auto;
+}
+
+/* 1. Large Desktop (>= 1024px): 3 + 4 clean composition.
+   Row 1: Nifty Futures (cols 1-4) | All Stocks PPL (cols 5-8) | Bank Nifty (cols 9-12)
+   Row 2: Above Yesterday (cols 1-3) | Below Yesterday (cols 4-6) | Above Intraday (cols 7-9) | Below Intraday (cols 10-12) */
+
+@media (min-width: 1024px) {
+  .market-pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    row-gap: var(--card-gap);
+    column-gap: var(--card-gap);
+  }
+
+  /* Row 1: 3 existing FNO cards */
+  .market-pulse-grid__fno-1 {
+    grid-column: 1 / 5;
+    grid-row: 1;
+  }
+
+  .market-pulse-grid__fno-2 {
+    grid-column: 5 / 9;
+    grid-row: 1;
+  }
+
+  .market-pulse-grid__fno-3 {
+    grid-column: 9 / 13;
+    grid-row: 1;
+  }
+
+  /* Row 2: 4 market-condition cards */
+  .market-pulse-grid__cond-1 {
+    grid-column: 1 / 4;
+    grid-row: 2;
+  }
+
+  .market-pulse-grid__cond-2 {
+    grid-column: 4 / 7;
+    grid-row: 2;
+  }
+
+  .market-pulse-grid__cond-3 {
+    grid-column: 7 / 10;
+    grid-row: 2;
+  }
+
+  .market-pulse-grid__cond-4 {
+    grid-column: 10 / 13;
+    grid-row: 2;
+  }
+}
+
+/* 2. Medium / Tablet (640px - 1023px): Brick / staggered composition.
+   Centered FNO cards (cols 2-3) alternating with card pairs (cols 1-2 & cols 3-4). */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .market-pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    row-gap: 20px;
+    column-gap: var(--card-gap);
+  }
+
+  /* Row 1: Nifty Futures — centered, spans col 2-3 */
+  .market-pulse-grid__fno-1 {
+    grid-column: 2 / 4;
+    grid-row: 1;
+  }
+
+  /* Row 2: Above Yesterday's High (col 1-2) + Below Yesterday's Low (col 3-4) */
+  .market-pulse-grid__cond-1 {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+
+  .market-pulse-grid__cond-2 {
+    grid-column: 3 / 5;
+    grid-row: 2;
+  }
+
+  /* Row 3: All Stocks PPL — centered, spans col 2-3 */
+  .market-pulse-grid__fno-2 {
+    grid-column: 2 / 4;
+    grid-row: 3;
+  }
+
+  /* Row 4: Above Intraday High (col 1-2) + Below Intraday Low (col 3-4) */
+  .market-pulse-grid__cond-3 {
+    grid-column: 1 / 3;
+    grid-row: 4;
+  }
+
+  .market-pulse-grid__cond-4 {
+    grid-column: 3 / 5;
+    grid-row: 4;
+  }
+
+  /* Row 5: Bank Nifty Futures — centered, spans col 2-3 */
+  .market-pulse-grid__fno-3 {
+    grid-column: 2 / 4;
+    grid-row: 5;
+  }
+}
+
+/* 3. Mobile (< 640px): Single-column layout with explicit business order.
+   1. All Stocks Profit Per Lot
+   2. Nifty Futures
+   3. Bank Nifty Futures
+   4. Above Yesterday's High
+   5. Below Yesterday's Low
+   6. Above Intraday High
+   7. Below Intraday Low */
+
+@media (max-width: 639px) {
+  .market-pulse-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+  }
+
+  .market-pulse-grid__fno-2 {
+    order: 1;
+  }
+
+  .market-pulse-grid__fno-1 {
+    order: 2;
+  }
+
+  .market-pulse-grid__fno-3 {
+    order: 3;
+  }
+
+  .market-pulse-grid__cond-1 {
+    order: 4;
+  }
+
+  .market-pulse-grid__cond-2 {
+    order: 5;
+  }
+
+  .market-pulse-grid__cond-3 {
+    order: 6;
+  }
+
+  .market-pulse-grid__cond-4 {
+    order: 7;
+  }
+}
+
+/* ── Fade-in animation for the pulse area ── */
+
+.market-data-section__pulse-inner {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity 600ms ease,
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.market-data-section.is-visible .market-data-section__pulse-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .market-data-section__pulse-inner {
+    transition: none;
+  }
+}
+
+/* ── Mobile market-data adjustments ── */
+
+@media (max-width: 560px) {
+  .market-data-section__heading {
+    padding-top: 1.5rem;
+  }
+
+  .market-data-section__heading-line {
+    width: 2.25rem;
+    height: 2.5px;
+    margin-top: 0.5rem;
+  }
+
+  .market-data-section__sentimeter {
+    padding: 1.5rem 0 2rem;
+  }
+}

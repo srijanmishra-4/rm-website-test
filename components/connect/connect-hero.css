@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════════════════════════════
+   CONNECT HERO — Light RichMonks background, watermark & decorations
+   ═══════════════════════════════════════════════════════════════ */
+
+.connect-hero-section {
+  background-color: #f6faf6; /* Matching About & Approach hero background */
+}
+
+/* Ambient glow gradients matching RichMonks design language */
+.connect-hero-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(65rem 32rem at 50% -2rem, rgba(33, 169, 71, 0.06), transparent 70%),
+    radial-gradient(55rem 28rem at 85% 105%, rgba(34, 43, 120, 0.03), transparent 72%),
+    radial-gradient(45rem 24rem at 12% 95%, rgba(33, 169, 71, 0.04), transparent 68%);
+}
+
+/* Subtle dot texture */
+.connect-hero-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(33, 169, 71, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  mask-image: radial-gradient(
+    ellipse 85% 70% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 70% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+}
+
+/* Watermark wrapper positioned behind hero content */
+.connect-hero-watermark-wrap {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Very large, subtle CONNECT watermark */
+.connect-hero-watermark {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 16vw, 15rem);
+  font-weight: 800;
+  letter-spacing: clamp(0.12em, 2.5vw, 0.28em);
+  text-transform: uppercase;
+  color: rgba(34, 43, 120, 0.038);
+  white-space: nowrap;
+  line-height: 0.9;
+  text-align: center;
+  width: 100%;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 18%,
+    rgba(0, 0, 0, 0.9) 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 18%,
+    rgba(0, 0, 0, 0.9) 82%,
+    transparent 100%
+  );
+  animation: connect-watermark-in 1.2s ease-out 0.15s both;
+}
+
+/* Subtle floating decorative dots */
+.connect-dot {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes connect-watermark-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connect-hero-watermark {
+    animation: none;
+  }
+}

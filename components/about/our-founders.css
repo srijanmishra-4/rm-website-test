@@ -1,0 +1,568 @@
+/* ═══════════════════════════════════════════════════════════════
+   OUR FOUNDERS SECTION
+   High-fidelity recreation matching Richmonks design language
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section Wrapper & Ambient Atmosphere ── */
+.founders-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #ffffff;
+  padding: clamp(4.5rem, 7.5vw, 7rem) clamp(1.25rem, 4vw, 3rem);
+  box-sizing: border-box;
+}
+
+/* Subtle dot texture */
+.founders-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(34, 43, 120, 0.035) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 45%,
+    #000 0%,
+    transparent 75%
+  );
+}
+
+/* Atmospheric ambient glow */
+.founders-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(55rem 28rem at 20% 35%, rgba(0, 113, 169, 0.03), transparent 70%),
+    radial-gradient(55rem 28rem at 80% 35%, rgba(33, 169, 71, 0.03), transparent 70%),
+    radial-gradient(60rem 30rem at 50% 85%, rgba(34, 43, 120, 0.02), transparent 75%);
+}
+
+/* Full-width atmospheric background watermark */
+.founders-watermark-wrap {
+  position: absolute;
+  top: clamp(6.25rem, 12vw, 9.75rem);
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.founders-watermark {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 14vw, 13.5rem);
+  font-weight: 800;
+  letter-spacing: clamp(0.1em, 2vw, 0.25em);
+  text-transform: uppercase;
+  color: rgba(34, 43, 120, 0.045);
+  white-space: nowrap;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 20%,
+    rgba(0, 0, 0, 0.9) 80%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 20%,
+    rgba(0, 0, 0, 0.9) 80%,
+    transparent 100%
+  );
+}
+
+/* ── 2. Container & Header ── */
+.founders-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.founders-header {
+  max-width: 660px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.founders-eyebrow-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.founders-eyebrow-line {
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: rgba(33, 169, 71, 0.4);
+}
+
+.founders-eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #06591d;
+}
+
+.founders-heading {
+  margin: 16px 0 0;
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: clamp(2.1rem, 3.8vw, 2.85rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: #1e266a;
+  text-align: center;
+}
+
+.founders-heading-line {
+  display: block;
+}
+
+.founders-divider {
+  width: 48px;
+  height: 2px;
+  background-color: #21a947;
+  border-radius: 9999px;
+  margin: 18px auto 0;
+}
+
+.founders-description {
+  margin: 20px auto 0;
+  max-width: 620px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.75;
+  color: #5a7184;
+  text-align: center;
+}
+
+/* ── 3. Cards Section & Center Connector ── */
+.founders-cards-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1040px;
+  margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (min-width: 880px) {
+  .founders-cards-wrap {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* ── Central Connector ── */
+.founders-connector {
+  display: none;
+}
+
+@media (min-width: 880px) {
+  .founders-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .founders-connector-line {
+    position: absolute;
+    top: 24px;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    border-left: 2px dashed rgba(34, 43, 120, 0.18);
+  }
+
+  .founders-connector-node {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 1.5px solid rgba(34, 43, 120, 0.22);
+    box-shadow:
+      0 2px 8px rgba(34, 43, 120, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .founders-connector-amp {
+    font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 600;
+    color: #1e266a;
+    line-height: 1;
+    user-select: none;
+  }
+}
+
+/* Mobile connector: horizontal separator with & node */
+.founders-connector-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  margin: 8px 0;
+}
+
+@media (min-width: 880px) {
+  .founders-connector-mobile {
+    display: none;
+  }
+}
+
+.founders-connector-mobile-line {
+  flex: 1;
+  height: 0;
+  border-top: 2px dashed rgba(34, 43, 120, 0.18);
+}
+
+.founders-connector-mobile-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0 16px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1.5px solid rgba(34, 43, 120, 0.22);
+  box-shadow:
+    0 2px 8px rgba(34, 43, 120, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.founders-connector-mobile-amp {
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 600;
+  color: #1e266a;
+  line-height: 1;
+}
+
+/* ── 4. Founder Card ── */
+.founder-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 18px;
+  border: 1px solid rgba(34, 43, 120, 0.085);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 8px 24px rgba(34, 43, 120, 0.045);
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+}
+
+.founder-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.03),
+    0 16px 36px rgba(34, 43, 120, 0.075);
+}
+
+.founder-card--blue:hover {
+  border-color: rgba(0, 113, 169, 0.25);
+}
+
+.founder-card--green:hover {
+  border-color: rgba(33, 169, 71, 0.25);
+}
+
+/* Card Header Banner */
+.founder-card-header {
+  position: relative;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.founder-card-header--blue {
+  background: linear-gradient(135deg, #1e266a 0%, #0071a9 100%);
+  color: #ffffff;
+}
+
+.founder-card-header--green {
+  background: linear-gradient(135deg, #06591d 0%, #21a947 100%);
+  color: #ffffff;
+}
+
+/* Subtle pattern / glow inside card header */
+.founder-card-header::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Monogram Avatar Initial Box */
+.founder-monogram-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.founder-monogram-text {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Top Stat Block */
+.founder-stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.founder-stat-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.founder-stat-label {
+  margin-top: 3px;
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Card Body */
+.founder-card-body {
+  padding: 28px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.founder-name {
+  margin: 0;
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #1e266a;
+}
+
+.founder-role {
+  margin: 5px 0 0;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #5a7184;
+}
+
+/* Category Pill */
+.founder-category-wrap {
+  margin-top: 14px;
+}
+
+.founder-category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.founder-category-pill--blue {
+  background-color: rgba(0, 113, 169, 0.07);
+  border: 1px solid rgba(0, 113, 169, 0.2);
+  color: #0071a9;
+}
+
+.founder-category-pill--green {
+  background-color: rgba(33, 169, 71, 0.07);
+  border: 1px solid rgba(33, 169, 71, 0.2);
+  color: #21a947;
+}
+
+/* Card Accent Divider */
+.founder-card-divider {
+  width: 38px;
+  height: 2px;
+  margin: 18px 0 16px;
+  border-radius: 2px;
+}
+
+.founder-card-divider--blue {
+  background: linear-gradient(90deg, #0071a9 0%, rgba(0, 113, 169, 0.2) 100%);
+}
+
+.founder-card-divider--green {
+  background: linear-gradient(90deg, #21a947 0%, rgba(33, 169, 71, 0.2) 100%);
+}
+
+/* Description Paragraphs */
+.founder-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 2px;
+  flex: 1;
+}
+
+.founder-paragraph {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #5a7184;
+}
+
+/* ── 5. Centered Philosophy Quote Panel ── */
+.founders-quote-panel {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin-top: clamp(2.75rem, 5vw, 3.75rem);
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(34, 43, 120, 0.09);
+  padding: 32px 36px;
+  text-align: center;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.02),
+    0 8px 24px rgba(34, 43, 120, 0.035);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Dual-accent top stripe */
+.founders-quote-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0071a9 0%, #21a947 100%);
+}
+
+.founders-quote-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+  color: #21a947;
+  opacity: 0.85;
+}
+
+.founders-quote-text {
+  margin: 0;
+  font-family: var(--font-serif), "Playfair Display", "Lora", Georgia, serif;
+  font-size: clamp(15px, 1.8vw, 17px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.65;
+  color: #1e266a;
+}
+
+.founders-quote-attribution {
+  margin: 14px 0 0;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #21a947;
+}
+
+@media (max-width: 640px) {
+  .founder-card-header {
+    padding: 20px 22px;
+  }
+
+  .founder-card-body {
+    padding: 22px 22px 26px;
+  }
+
+  .founders-quote-panel {
+    padding: 24px 22px;
+  }
+}
