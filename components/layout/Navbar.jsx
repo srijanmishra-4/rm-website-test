@@ -8,7 +8,6 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Approach", href: "/approach" },
   // { label: "Team", href: "/team" }, // Removed per request
   { label: "Contact", href: "/contact" },
 ];

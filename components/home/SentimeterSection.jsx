@@ -74,7 +74,7 @@ export function SentimeterDonut({ reading, status }) {
 
         {/* Centered Score Readout */}
         <div className="sentimeter-donut__center">
-          <span className="sentimeter-donut__score-caption">CURRENT SCORE</span>
+          <span className="sentimeter-donut__score-caption">SENTIMETER</span>
           <span className="sentimeter-donut__score-val">{displayScore}</span>
           <span
             className="sentimeter-donut__mood-pill"
@@ -258,17 +258,6 @@ export default function SentimeterSection({
 
         {/* Right Column: Unified Market Sentiment Panel */}
         <div className="sentimeter-panel">
-          <div className="sentimeter-panel__head">
-            <span className="sentimeter-panel__title">Sentimeter</span>
-            <span className="sentimeter-panel__status">
-              <span
-                className={status === "success" ? "is-live" : ""}
-                aria-hidden="true"
-              />
-              {status === "success" ? "Live" : "Market reading"}
-            </span>
-          </div>
-
           <div className="sentimeter-panel__grid">
             <div className="sentimeter-panel__donut-col">
               <SentimeterDonut reading={reading} status={status} />
@@ -276,8 +265,8 @@ export default function SentimeterSection({
 
             <div className="sentimeter-panel__bias-col">
               <BullsVsBears
-                bulls={glanceData?.sentimeter?.bullscore}
-                bears={glanceData?.sentimeter?.bearscore}
+                bulls={glanceData?.sentimeter?.bullscore ?? glanceData?.bulls}
+                bears={glanceData?.sentimeter?.bearscore ?? glanceData?.bears}
                 status={status}
               />
             </div>

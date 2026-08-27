@@ -83,8 +83,8 @@ function trendState(change) {
   return {
     src: "/assets/Images/graph_loss.svg",
     width: 98,
-    height: 70,
-    imageClass: "",
+    height: 30,
+    imageClass: "h-[22px] w-auto max-w-[50px]",
     accentBg: "bg-red",
     accentText: "text-red",
     arrow: "↓",
@@ -222,7 +222,8 @@ const FIXED_TREND_UP = {
 const FIXED_TREND_DOWN = {
   src: "/assets/Images/graph_loss.svg",
   width: 98,
-  height: 70,
+  height: 30,
+  imageClass: "h-[22px] w-auto max-w-[50px]",
   accentBg: "bg-red",
   accentText: "text-red",
   arrow: "↓",
@@ -281,7 +282,7 @@ function MarketConditionCard({ definition, glanceData, loading }) {
               alt={trend.alt}
               width={trend.width}
               height={trend.height}
-              className="h-[26px] w-auto max-w-[48px] object-contain"
+              className={`h-[26px] w-auto max-w-[48px] object-contain ${trend.imageClass || ""}`}
             />
           )}
         </span>
@@ -314,12 +315,12 @@ function MarketConditionCard({ definition, glanceData, loading }) {
             <p
               className={`m-0 mt-[6px] flex items-center justify-end gap-[4px] text-[13px] leading-[1.35] font-bold ${trend.accentText}`}
             >
-              {definition.label}
               {trend.arrow && (
                 <span aria-hidden="true" className="text-[12px] leading-none">
                   {trend.arrow}
                 </span>
               )}
+              {definition.label}
             </p>
           )}
         </div>
@@ -441,17 +442,6 @@ export default function MarketDataSection({
           </div>
 
           <div className="sentimeter-panel">
-            <div className="sentimeter-panel__head">
-              <span className="sentimeter-panel__title">Sentimeter</span>
-              <span className="sentimeter-panel__status">
-                <span
-                  className={sentimeterStatus === "success" ? "is-live" : ""}
-                  aria-hidden="true"
-                />
-                {sentimeterStatus === "success" ? "Live" : "Market reading"}
-              </span>
-            </div>
-
             <div className="sentimeter-panel__grid">
               <div className="sentimeter-panel__donut-col">
                 <SentimeterDonut reading={reading} status={sentimeterStatus} />
@@ -459,8 +449,8 @@ export default function MarketDataSection({
 
               <div className="sentimeter-panel__bias-col">
                 <BullsVsBears
-                  bulls={glanceData?.sentimeter?.bullscore}
-                  bears={glanceData?.sentimeter?.bearscore}
+                  bulls={glanceData?.sentimeter?.bullscore ?? glanceData?.bulls}
+                  bears={glanceData?.sentimeter?.bearscore ?? glanceData?.bears}
                   status={sentimeterStatus}
                 />
               </div>

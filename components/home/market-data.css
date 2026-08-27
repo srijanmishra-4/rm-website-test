@@ -53,11 +53,11 @@
 /* ── Market Pulse sub-area ── */
 
 .market-data-section__pulse {
-  padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(4.5rem, 8vw, 7rem);
+  padding: 0 clamp(1.25rem, 3.5vw, 3rem) clamp(4.5rem, 8vw, 7rem);
 }
 
 .market-data-section__pulse-inner {
-  max-width: 78rem;
+  max-width: 80rem;
   margin-inline: auto;
   width: 100%;
 }
@@ -65,9 +65,9 @@
 /* ── Responsive 7-card grid ── */
 
 .market-pulse-grid {
-  --card-gap: 24px;
+  --card-gap: 20px;
   width: 100%;
-  max-width: 70.5rem;
+  max-width: 78rem;
   margin-inline: auto;
 }
 

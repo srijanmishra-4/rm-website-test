@@ -35,8 +35,8 @@ export default function TheRichmonksWay() {
 
         {/* CTA Button */}
         <div className="the-way-btn-wrap">
-          <Link href="/approach" className="the-way-btn">
-            Explore Our Approach
+          <Link href="/contact" className="the-way-btn">
+            Contact Us
           </Link>
         </div>
       </div>

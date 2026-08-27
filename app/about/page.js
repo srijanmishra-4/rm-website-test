@@ -1,7 +1,7 @@
 import AboutHero from "@/components/about/AboutHero";
 import OurFoundation from "@/components/about/OurFoundation";
-import OurFounders from "@/components/about/OurFounders";
 import OurEdge from "@/components/about/OurEdge";
+import OurFounders from "@/components/about/OurFounders";
 import TheRichmonksWay from "@/components/about/TheRichmonksWay";
 import Footer from "@/components/layout/Footer";
 
@@ -16,8 +16,8 @@ export default function AboutPage() {
     <>
       <AboutHero />
       <OurFoundation />
-      <OurFounders />
       <OurEdge />
+      <OurFounders />
       <TheRichmonksWay />
       <Footer />
     </>

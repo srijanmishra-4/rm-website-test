@@ -67,8 +67,8 @@ function trendState(change) {
   return {
     src: "/assets/Images/graph_loss.svg",
     width: 98,
-    height: 70,
-    imageClass: "",
+    height: 30,
+    imageClass: "h-[22px] w-auto max-w-[50px]",
     accentBg: "bg-red",
     accentText: "text-red",
     arrow: "↓",
@@ -122,7 +122,7 @@ function MarketCard({ card, loading }) {
               alt={trend.alt}
               width={trend.width}
               height={trend.height}
-              className={`h-[26px] w-auto max-w-[48px] object-contain ${trend.imageClass}`}
+              className={`h-[26px] w-auto max-w-[48px] object-contain ${trend.imageClass || ""}`}
             />
           )}
         </span>
