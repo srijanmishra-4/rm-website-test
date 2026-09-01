@@ -397,85 +397,81 @@ export default function ReportsSection() {
       className={`reports-section bg-hero-start/45 px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,7vw,6.5rem)]${sectionVisible ? " is-visible" : ""}`}
     >
       <div className="mx-auto w-full max-w-[84rem]">
-      <div className="reports-section__inner-reveal">
-        <h2
-          id="reports-heading"
-          className="m-0 text-center font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.15] font-semibold tracking-[-0.015em] text-text-primary"
-        >
-          Market Reports
-        </h2>
-        <span
-          aria-hidden="true"
-          className="mx-auto mt-3 block h-[3px] w-11 rounded-full bg-green"
-        />
+        <div className="reports-section__inner-reveal">
+          <h2
+            id="reports-heading"
+            className="m-0 text-center font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.15] font-semibold tracking-[-0.015em] text-text-primary"
+          >
+            Market Reports
+          </h2>
+          <span
+            aria-hidden="true"
+            className="mx-auto mt-3 block h-[3px] w-11 rounded-full bg-green"
+          />
 
-        {/* 10 Selectable Reports Navigation — 6 + 4 Row Split */}
-        <div
-          role="group"
-          aria-label="Select a report"
-          className="mx-auto mt-[clamp(1.75rem,3vw,2.5rem)] w-full max-w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          <div className="flex min-w-[54rem] flex-col md:min-w-0">
-            {/* Row 1: 6 report options — compact centered group */}
-            <div className="flex justify-center gap-[1.2rem]">
-              {ROW_1_REPORTS.map((report) => {
-                const isActive = report.id === activeId;
+          {/* 10 Selectable Reports Navigation — 6 + 4 Row Split */}
+          <div
+            role="group"
+            aria-label="Select a report"
+            className="mx-auto mt-[clamp(1.75rem,3vw,2.5rem)] w-full max-w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <div className="flex min-w-[54rem] flex-col gap-2 md:min-w-0">
+              {/* Row 1: 6 report options — compact centered group */}
+              <div className="flex justify-center gap-[1.2rem]">
+                {ROW_1_REPORTS.map((report) => {
+                  const isActive = report.id === activeId;
 
-                return (
-                  <button
-                    key={report.id}
-                    type="button"
-                    aria-pressed={isActive}
-                    onClick={() => setActiveId(report.id)}
-                    className={`relative flex items-center justify-center text-center cursor-pointer border-0 bg-transparent px-2 pt-2.5 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.06em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                      isActive
+                  return (
+                    <button
+                      key={report.id}
+                      type="button"
+                      aria-pressed={isActive}
+                      onClick={() => setActiveId(report.id)}
+                      className={`relative flex items-center justify-center text-center cursor-pointer border-0 bg-transparent px-2 pt-2.5 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.06em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${isActive
                         ? "text-green-dark"
                         : "text-text-primary/50 hover:text-primary"
-                    }`}
-                  >
-                    <span>{report.label}</span>
-                    <span
-                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${
-                        isActive ? "bg-green opacity-100" : "opacity-0"
-                      }`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                );
-              })}
-            </div>
+                        }`}
+                    >
+                      <span>{report.label}</span>
+                      <span
+                        className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${isActive ? "bg-green opacity-100" : "opacity-0"
+                          }`}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
 
-            {/* Row 2: 4 report options — compact centered group */}
-            <div className="flex justify-center gap-[1.2rem]">
-              {ROW_2_REPORTS.map((report) => {
-                const isActive = report.id === activeId;
+              {/* Row 2: 4 report options — compact centered group */}
+              <div className="flex justify-center gap-[1.2rem]">
+                {ROW_2_REPORTS.map((report) => {
+                  const isActive = report.id === activeId;
 
-                return (
-                  <button
-                    key={report.id}
-                    type="button"
-                    aria-pressed={isActive}
-                    onClick={() => setActiveId(report.id)}
-                    className={`relative flex items-center justify-center text-center cursor-pointer border-0 bg-transparent px-1.5 pt-2.5 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.06em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                      isActive
+                  return (
+                    <button
+                      key={report.id}
+                      type="button"
+                      aria-pressed={isActive}
+                      onClick={() => setActiveId(report.id)}
+                      className={`relative flex items-center justify-center text-center cursor-pointer border-0 bg-transparent px-1.5 pt-2.5 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.06em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${isActive
                         ? "text-green-dark"
                         : "text-text-primary/50 hover:text-primary"
-                    }`}
-                  >
-                    <span>{report.label}</span>
-                    <span
-                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${
-                        isActive ? "bg-green opacity-100" : "opacity-0"
-                      }`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                );
-              })}
+                        }`}
+                    >
+                      <span>{report.label}</span>
+                      <span
+                        className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${isActive ? "bg-green opacity-100" : "opacity-0"
+                          }`}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
         {status === "error" ? (
           <p
@@ -499,16 +495,16 @@ export default function ReportsSection() {
           >
             {status === "loading"
               ? Array.from({ length: displayLimit }, (_, index) => (
-                  <SkeletonCard key={index} />
-                ))
+                <SkeletonCard key={index} />
+              ))
               : activeRows.map((row, index) => (
-                  <ReportCard
-                    key={`${activeId}-${row.symbol}-${index}`}
-                    variant={activeReport.variant}
-                    reportId={activeId}
-                    row={row}
-                  />
-                ))}
+                <ReportCard
+                  key={`${activeId}-${row.symbol}-${index}`}
+                  variant={activeReport.variant}
+                  reportId={activeId}
+                  row={row}
+                />
+              ))}
           </div>
         )}
 
