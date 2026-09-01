@@ -9,6 +9,7 @@ import {
   Activity,
   Crosshair,
 } from "lucide-react";
+import { useSectionReveal } from "@/lib/motion";
 import "./our-edge.css";
 
 const ADVANTAGES = [
@@ -47,9 +48,15 @@ const ADVANTAGES = [
 ];
 
 export default function OurEdge() {
+  const [sectionRef, visible] = useSectionReveal("0px 0px -8% 0px");
+
   return (
-    <section aria-labelledby="edge-heading" className="edge-section">
-      <div className="edge-container">
+    <section
+      ref={sectionRef}
+      aria-labelledby="edge-heading"
+      className={`edge-section${visible ? " is-visible" : ""}`}
+    >
+      <div className="edge-container rm-reveal">
         {/* ── Eyebrow Label ── */}
         <div className="edge-eyebrow-wrap">
           <span className="edge-eyebrow">OUR EDGE</span>

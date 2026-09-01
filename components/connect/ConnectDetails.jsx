@@ -11,6 +11,7 @@ import {
   Send,
   CheckCircle2,
 } from "lucide-react";
+import { useSectionReveal } from "@/lib/motion";
 import "./connect-details.css";
 
 const ADDRESS_LINES = [
@@ -66,12 +67,15 @@ export default function ConnectDetails() {
     }
   };
 
+  const [sectionRef, visible] = useSectionReveal("0px 0px -8% 0px");
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="connect-details-heading"
-      className="connect-details-section py-[clamp(3.5rem,6vw,5.5rem)] px-[clamp(1.5rem,5vw,4rem)]"
+      className={`connect-details-section py-[clamp(3.5rem,6vw,5.5rem)] px-[clamp(1.5rem,5vw,4rem)]${visible ? " is-visible" : ""}`}
     >
-      <div className="mx-auto w-full max-w-[78rem]">
+      <div className="mx-auto w-full max-w-[78rem] rm-reveal">
         <div className="grid grid-cols-1 gap-[clamp(2.5rem,5vw,4.5rem)] lg:grid-cols-[46%_54%] items-start">
           {/* ══════════════════════════════════════════════════════════
               LEFT COLUMN — OUR DETAILS

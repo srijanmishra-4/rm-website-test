@@ -1,7 +1,9 @@
 import MarketTicker from "@/components/layout/MarketTicker";
 import Navbar from "@/components/layout/Navbar";
+import PageTransition from "@/components/layout/PageTransition";
 
 import "../styles/globals.css";
+import "../styles/motion.css";
 
 export const metadata = {
   title: "RichMonks",
@@ -21,7 +23,9 @@ export default function RootLayout({ children }) {
           <MarketTicker />
           <Navbar />
         </div>
-        <main>{children}</main>
+        <main>
+          <PageTransition>{children}</PageTransition>
+        </main>
       </body>
     </html>
   );

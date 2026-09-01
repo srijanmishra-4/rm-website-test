@@ -1,0 +1,167 @@
+/* motion.css
+   ═══════════════════════════════════════════════════════════════════════
+   APPLICATION-WIDE MOTION SYSTEM
+   Single source of truth for all animation tokens, keyframes, and
+   reusable utility classes used across the entire RichMonks application.
+
+   Usage patterns:
+     - Page entry:       .rm-page-enter on the <main> wrapper (via PageTransition)
+     - Section reveals:  .rm-reveal on content wrappers + .is-visible on ancestor
+     - Hover lift:       .rm-hover-lift on interactive cards
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Motion Tokens ─────────────────────────────────────────────────────── */
+
+:root {
+  /* Durations */
+  --rm-dur-fast:   150ms;
+  --rm-dur-base:   250ms;
+  --rm-dur-slow:   500ms;
+  --rm-dur-page:   280ms;
+
+  /* Easings */
+  --rm-ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --rm-ease-std:   ease;
+  --rm-ease-in:    cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────── */
+
+/* Subtle reveal: opacity + tiny upward movement */
+@keyframes rm-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page entry: fast, nearly imperceptible fade+lift */
+@keyframes rm-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Page Transition ────────────────────────────────────────────────────── */
+
+/* Applied to the <main> wrapper on every route change via PageTransition.jsx */
+.rm-page-enter {
+  animation: rm-page-enter var(--rm-dur-page) var(--rm-ease-out) both;
+}
+
+/* ── Section Reveal System ──────────────────────────────────────────────── */
+
+/* Base state: hidden, ready to reveal.
+   Activated when .is-visible is on the element itself OR any ancestor. */
+.rm-reveal {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity var(--rm-dur-slow) var(--rm-ease-std),
+    transform var(--rm-dur-slow) var(--rm-ease-out);
+}
+
+/* Activated reveal */
+.rm-reveal.is-visible,
+.is-visible .rm-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay modifiers — apply alongside .rm-reveal */
+.rm-reveal--delay-1 {
+  transition-delay: 80ms;
+}
+
+.rm-reveal--delay-2 {
+  transition-delay: 160ms;
+}
+
+.rm-reveal--delay-3 {
+  transition-delay: 240ms;
+}
+
+/* ── Hover Lift ─────────────────────────────────────────────────────────── */
+
+/* Subtle card elevation on hover. Use on interactive card wrappers. */
+.rm-hover-lift {
+  transition:
+    transform var(--rm-dur-base) var(--rm-ease-out),
+    box-shadow var(--rm-dur-base) var(--rm-ease-std);
+}
+
+@media (hover: hover) {
+  .rm-hover-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ── Global Interaction Transitions ─────────────────────────────────────── */
+
+/* Consistent, subtle transitions on all interactive elements.
+   Only transitions cheap composite/color properties. */
+a,
+button {
+  transition:
+    color var(--rm-dur-fast) var(--rm-ease-std),
+    background-color var(--rm-dur-fast) var(--rm-ease-std),
+    border-color var(--rm-dur-fast) var(--rm-ease-std),
+    box-shadow var(--rm-dur-base) var(--rm-ease-std),
+    opacity var(--rm-dur-fast) var(--rm-ease-std);
+}
+
+/* Inputs and form controls — focus ring + border transitions */
+input,
+select,
+textarea {
+  transition:
+    border-color var(--rm-dur-fast) var(--rm-ease-std),
+    box-shadow var(--rm-dur-fast) var(--rm-ease-std);
+}
+
+/* ── Reduced Motion ─────────────────────────────────────────────────────── */
+
+/* Honour the user's OS-level preference. Disable all non-essential motion. */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable page entry animation */
+  .rm-page-enter {
+    animation: none;
+  }
+
+  /* Disable section reveals — show content immediately */
+  .rm-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* Disable stagger delays */
+  .rm-reveal--delay-1,
+  .rm-reveal--delay-2,
+  .rm-reveal--delay-3 {
+    transition-delay: 0ms;
+  }
+
+  /* Disable hover lift */
+  .rm-hover-lift {
+    transition: none;
+  }
+
+  /* Disable global interaction transitions */
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    transition: none;
+  }
+}

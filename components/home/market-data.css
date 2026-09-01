@@ -220,26 +220,12 @@
   }
 }
 
-/* ── Fade-in animation for the pulse area ── */
-
-.market-data-section__pulse-inner {
-  opacity: 0;
-  transform: translateY(1rem);
-  transition:
-    opacity 600ms ease,
-    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.market-data-section.is-visible .market-data-section__pulse-inner {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .market-data-section__pulse-inner {
-    transition: none;
-  }
-}
+/* ── Section reveal animations ──────────────────────────────────────────
+   The heading, sentimeter, and pulse-inner divs use the global .rm-reveal
+   utility class from styles/motion.css. The .is-visible class is toggled
+   on .market-data-section by MarketDataSection.jsx via IntersectionObserver,
+   which then activates ".is-visible .rm-reveal" defined in motion.css.
+   ──────────────────────────────────────────────────────────────────────── */
 
 /* ── Mobile market-data adjustments ── */
 
@@ -270,32 +256,7 @@
   }
 }
 
-/* ── Heading + Sentimeter reveal animation ── */
-
-.market-data-section__heading,
-.market-data-section__sentimeter {
-  opacity: 0;
-  transform: translateY(0.75rem);
-  transition:
-    opacity 500ms ease,
-    transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.market-data-section.is-visible .market-data-section__heading,
-.market-data-section.is-visible .market-data-section__sentimeter {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.market-data-section.is-visible .market-data-section__sentimeter {
-  transition-delay: 80ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .market-data-section__heading,
-  .market-data-section__sentimeter {
-    transition: none;
-    opacity: 1;
-    transform: none;
-  }
-}
+/* Reveal styles for .market-data-section__heading, .market-data-section__sentimeter,
+   and .market-data-section__pulse-inner are provided by the shared .rm-reveal
+   utility in styles/motion.css. The stagger delay on sentimeter is applied via
+   the .rm-reveal--delay-1 modifier class added in MarketDataSection.jsx. */

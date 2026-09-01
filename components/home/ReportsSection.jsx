@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { useSectionReveal } from "@/lib/motion";
 import { getStockLogoUrl } from "@/lib/market";
 import { REPORTS, fetchAllMarketReports } from "@/lib/reports";
 
@@ -336,28 +337,10 @@ export default function ReportsSection() {
   const [activeId, setActiveId] = useState(REPORTS[0].id);
   const [requestKey, setRequestKey] = useState(0);
   const [state, setState] = useState({ status: "loading", data: null });
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const [sectionRef, sectionVisible] = useSectionReveal("0px 0px -8% 0px");
   const displayLimit = useDisplayLimit();
 
   const activeReport = REPORTS.find((report) => report.id === activeId) || REPORTS[0];
-
-  /* Intersection observer for section entrance reveal */
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setSectionVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px" },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     let active = true;
@@ -397,7 +380,7 @@ export default function ReportsSection() {
       className={`reports-section bg-hero-start/45 px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,7vw,6.5rem)]${sectionVisible ? " is-visible" : ""}`}
     >
       <div className="mx-auto w-full max-w-[84rem]">
-        <div className="reports-section__inner-reveal">
+        <div className="reports-section__inner-reveal rm-reveal">
           <h2
             id="reports-heading"
             className="m-0 text-center font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.15] font-semibold tracking-[-0.015em] text-text-primary"

@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useSectionReveal } from "@/lib/motion";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -70,9 +73,14 @@ function PinIcon({ className = "h-4 w-4" }) {
 }
 
 export default function Footer() {
+  const [sectionRef, visible] = useSectionReveal("0px 0px -5% 0px");
+
   return (
-    <footer className="bg-[#0d2430] px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(2.5rem,4.5vw,3.5rem)] pb-[clamp(1.5rem,2.5vw,2rem)]">
-      <div className="mx-auto w-full max-w-[80rem]">
+    <footer
+      ref={sectionRef}
+      className={`bg-[#0d2430] px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(2.5rem,4.5vw,3.5rem)] pb-[clamp(1.5rem,2.5vw,2rem)]${visible ? " is-visible" : ""}`}
+    >
+      <div className="mx-auto w-full max-w-[80rem] rm-reveal">
         <div className="grid grid-cols-1 gap-x-[clamp(1.5rem,4vw,3rem)] gap-y-[clamp(1.875rem,3vw,2.5rem)] sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.35fr_1.15fr]">
           <div>
             <Link

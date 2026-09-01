@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
+import { useSectionReveal } from "@/lib/motion";
 import {
   SENTIMENT_STATES,
   normalizeSentimeterResponse,
@@ -338,8 +339,7 @@ export default function MarketDataSection({
   glanceStatus,
   onRetry,
 }) {
-  const sectionRef = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const [sectionRef, visible] = useSectionReveal("0px 0px -10% 0px");
 
   /* Sentimeter */
   const reading = normalizeSentimeterResponse(glanceData);
@@ -353,25 +353,6 @@ export default function MarketDataSection({
   const fnoStatus =
     glanceStatus === "success" && !cards ? "error" : glanceStatus;
 
-  /* Intersection observer for fade-in */
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" },
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
       ref={sectionRef}
@@ -379,7 +360,7 @@ export default function MarketDataSection({
       aria-labelledby="fno-glance-heading"
     >
       {/* ── 1. FNO AT A GLANCE heading ── */}
-      <div className="market-data-section__heading">
+      <div className="market-data-section__heading rm-reveal">
         <h2
           id="fno-glance-heading"
           className="m-0 font-display text-[clamp(2rem,4vw,3.125rem)] leading-[1.12] font-semibold tracking-[-0.015em] text-text-primary"
@@ -393,7 +374,7 @@ export default function MarketDataSection({
       </div>
 
       {/* ── 2. SENTIMETER ── */}
-      <div className="market-data-section__sentimeter">
+      <div className="market-data-section__sentimeter rm-reveal rm-reveal--delay-1">
         <div className="sentimeter-section__inner">
           <div className="sentimeter-intro">
             <span className="sentimeter-intro__eyebrow">
@@ -470,7 +451,7 @@ export default function MarketDataSection({
 
       {/* ── 3. MARKET PULSE: SVG transition + heading + 7-card grid ── */}
       <div className="market-data-section__pulse">
-        <div className="market-data-section__pulse-inner">
+        <div className="market-data-section__pulse-inner rm-reveal">
           {/* Flying men illustration */}
           <div
             className="fno-flight-path relative mx-auto mt-0 mb-[clamp(1.75rem,3.2vw,2.75rem)] h-[clamp(5.5rem,11vw,8.5rem)] max-w-[62rem]"

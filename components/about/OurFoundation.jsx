@@ -1,3 +1,6 @@
+"use client";
+
+import { useSectionReveal } from "@/lib/motion";
 import "./our-foundation.css";
 
 const PRINCIPLES = [
@@ -111,15 +114,18 @@ function PrincipleCard({ principle, index }) {
 }
 
 export default function OurFoundation() {
+  const [sectionRef, visible] = useSectionReveal("0px 0px -8% 0px");
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="foundation-heading"
-      className="foundation-section"
+      className={`foundation-section${visible ? " is-visible" : ""}`}
     >
       <div className="foundation-dots" aria-hidden="true" />
       <div className="foundation-ambient" aria-hidden="true" />
 
-      <div className="mx-auto w-full max-w-[76rem]">
+      <div className="mx-auto w-full max-w-[76rem] rm-reveal">
         {/* Header */}
         <div className="mx-auto max-w-[44rem] text-center">
           <span className="inline-flex items-center gap-2.5 font-body text-[0.6875rem] font-semibold tracking-[0.18em] text-green-dark uppercase">

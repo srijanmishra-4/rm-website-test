@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { ShieldCheck, Lock } from "lucide-react";
+import { useSectionReveal } from "@/lib/motion";
 import "./connect-hero.css";
 
 const BADGES = [
@@ -8,10 +11,13 @@ const BADGES = [
 ];
 
 export default function ConnectHero() {
+  const [sectionRef, visible] = useSectionReveal("0px 0px -8% 0px");
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="connect-hero-heading"
-      className="connect-hero-section relative isolate mt-[calc(var(--spacing-header)*-1)] overflow-hidden px-[clamp(1.5rem,5vw,4rem)] pt-header lg:mt-[calc(var(--spacing-header-lg)*-1)] lg:pt-[var(--spacing-header-lg)]"
+      className={`connect-hero-section relative isolate mt-[calc(var(--spacing-header)*-1)] overflow-hidden px-[clamp(1.5rem,5vw,4rem)] pt-header lg:mt-[calc(var(--spacing-header-lg)*-1)] lg:pt-[var(--spacing-header-lg)]${visible ? " is-visible" : ""}`}
     >
       {/* Ambient cool-toned gradients */}
       <div className="connect-hero-ambient" aria-hidden="true" />
@@ -66,7 +72,7 @@ export default function ConnectHero() {
       </div>
 
       {/* Centered Hero Content */}
-      <div className="relative z-10 mx-auto w-full max-w-[76rem] pt-[clamp(2.5rem,5vw,4.25rem)] pb-[clamp(3.5rem,6vw,5.5rem)]">
+      <div className="relative z-10 mx-auto w-full max-w-[76rem] pt-[clamp(2.5rem,5vw,4.25rem)] pb-[clamp(3.5rem,6vw,5.5rem)] rm-reveal">
         <div className="mx-auto max-w-[50rem] text-center">
           {/* Eyebrow */}
           <span className="inline-flex items-center gap-2.5 font-body text-[0.6875rem] font-semibold tracking-[0.18em] text-green-dark uppercase">

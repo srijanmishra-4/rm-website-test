@@ -1,17 +1,26 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useSectionReveal } from "@/lib/motion";
 import "./the-richmonks-way.css";
 
 export default function TheRichmonksWay() {
+  const [sectionRef, visible] = useSectionReveal("0px 0px -8% 0px");
+
   return (
-    <section aria-labelledby="richmonks-way-heading" className="the-way-section">
+    <section
+      ref={sectionRef}
+      aria-labelledby="richmonks-way-heading"
+      className={`the-way-section${visible ? " is-visible" : ""}`}
+    >
       {/* Ambient background glows */}
       <div className="the-way-ambient" aria-hidden="true" />
 
       {/* Subtle micro dot texture */}
       <div className="the-way-texture" aria-hidden="true" />
 
-      <div className="the-way-container">
+      <div className="the-way-container rm-reveal">
         {/* Main Heading */}
         <h2 id="richmonks-way-heading" className="the-way-heading">
           The Richmonks Way.

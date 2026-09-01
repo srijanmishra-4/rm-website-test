@@ -1,23 +1,8 @@
 /* reports-section.css
-   Motion polish for the Market Reports section.
-   - Entrance reveal on the section heading + nav
-   - Subtle opacity fade when switching between reports
+   Market Reports section animations:
+   - Entrance reveal is handled by .rm-reveal in styles/motion.css
+   - Subtle opacity fade when switching between reports tab
    - All motion respects prefers-reduced-motion */
-
-/* -- Section entrance reveal -- */
-
-.reports-section .reports-section__inner-reveal {
-  opacity: 0;
-  transform: translateY(0.75rem);
-  transition:
-    opacity 500ms ease,
-    transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reports-section.is-visible .reports-section__inner-reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* -- Report cards grid: fade in when activeId key changes -- */
 /* The key={activeId} on the div forces React to remount it, triggering
@@ -41,12 +26,6 @@
 /* -- Reduced motion overrides -- */
 
 @media (prefers-reduced-motion: reduce) {
-  .reports-section .reports-section__inner-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
   .reports-cards-grid {
     animation: none;
   }

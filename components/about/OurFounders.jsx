@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Quote } from "lucide-react";
+import { useSectionReveal } from "@/lib/motion";
 import "./our-founders.css";
 
 const FOUNDERS_DATA = [
@@ -105,8 +106,14 @@ function FounderCard({ founder }) {
 }
 
 export default function OurFounders() {
+  const [sectionRef, visible] = useSectionReveal("0px 0px -8% 0px");
+
   return (
-    <section aria-labelledby="founders-heading" className="founders-section">
+    <section
+      ref={sectionRef}
+      aria-labelledby="founders-heading"
+      className={`founders-section${visible ? " is-visible" : ""}`}
+    >
       {/* Subtle Dot Matrix Texture */}
       <div className="founders-dots" aria-hidden="true" />
 
@@ -118,7 +125,7 @@ export default function OurFounders() {
         <span className="founders-watermark">FOUNDERS</span>
       </div>
 
-      <div className="founders-container">
+      <div className="founders-container rm-reveal">
         {/* ── Section Header ── */}
         <div className="founders-header">
           <div className="founders-eyebrow-wrap">

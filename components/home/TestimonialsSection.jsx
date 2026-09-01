@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useSectionReveal } from "@/lib/motion";
 
 const TESTIMONIALS = [
   {
@@ -106,26 +106,7 @@ function TestimonialCard({ testimonial, visible, index }) {
 }
 
 export default function TestimonialsSection() {
-  const sectionRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" },
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+  const [sectionRef, visible] = useSectionReveal("0px 0px -10% 0px");
 
   return (
     <section
