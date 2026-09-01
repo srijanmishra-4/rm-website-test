@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { getStockLogoUrl } from "@/lib/market";
-import { MAX_REPORT_ROWS, REPORTS, fetchReportRows } from "@/lib/reports";
+import { REPORTS, fetchAllMarketReports } from "@/lib/reports";
+
+import "./reports-section.css";
 
 const decimalFormatter = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 2,
@@ -33,6 +35,27 @@ function formatSignedCount(value) {
 
 function formatCount(value) {
   return value == null ? EMPTY_VALUE : integerFormatter.format(value);
+}
+
+function formatNumber(value) {
+  if (value == null || value === "") return EMPTY_VALUE;
+  const num = Number(value);
+  if (!Number.isFinite(num)) return String(value);
+  return decimalFormatter.format(num);
+}
+
+function formatStrike(value) {
+  if (value == null || value === "") return EMPTY_VALUE;
+  const num = Number(value);
+  if (!Number.isFinite(num)) return String(value);
+  return integerFormatter.format(num);
+}
+
+function formatCurrencyValue(value) {
+  if (value == null || value === "") return EMPTY_VALUE;
+  const num = Number(value);
+  if (!Number.isFinite(num)) return `₹${String(value)}`;
+  return `₹${decimalFormatter.format(num)}`;
 }
 
 function toneClass(value) {
@@ -82,46 +105,26 @@ function CompanyLogo({ symbol }) {
   );
 }
 
+function getRemarkStyle(remark) {
+  if (!remark) return "";
+  const code = String(remark).trim().toUpperCase();
+  switch (code) {
+    case "S":
+      return "bg-green/10 text-green-dark border border-green/20";
+    case "W":
+      return "bg-red/10 text-red border border-red/20";
+    case "N":
+      return "bg-blue/10 text-blue border border-blue/20";
+    default:
+      return "bg-primary/8 text-primary border border-primary/15";
+  }
+}
+
 function CardShell({ children }) {
   return (
-    <article className="flex h-full w-full max-w-[22rem] flex-col rounded-xl border border-primary/10 bg-white px-4 py-[1.125rem] shadow-[0_6px_20px_rgba(34,43,120,0.05)] transition-[transform,box-shadow,border-color] duration-300 hover:border-green/25 hover:shadow-[0_12px_30px_rgba(34,43,120,0.09)] motion-safe:hover:-translate-y-0.5 md:max-w-none">
+    <article className="flex h-full w-full max-w-[24rem] flex-col rounded-xl border border-primary/10 bg-white px-4 py-[1.125rem] shadow-[0_6px_20px_rgba(34,43,120,0.05)] transition-[transform,box-shadow,border-color] duration-300 hover:border-green/25 hover:shadow-[0_12px_30px_rgba(34,43,120,0.09)] motion-safe:hover:-translate-y-0.5 md:max-w-none">
       {children}
     </article>
-  );
-}
-
-function CardHeader({ symbol, badge }) {
-  return (
-    <div className="flex items-center gap-2.5">
-      <CompanyLogo symbol={symbol} />
-      <span className="min-w-0 flex-1 truncate font-body text-[0.8125rem] font-semibold tracking-[0.03em] text-text-primary uppercase">
-        {symbol}
-      </span>
-      {badge}
-    </div>
-  );
-}
-
-function PriceBlock({ label, value, change }) {
-  return (
-    <div className="mt-4">
-      <div className="flex w-full items-center justify-between gap-2">
-        <p className="m-0 font-display text-[1.375rem] leading-none font-semibold tracking-[-0.01em] text-text-primary tabular-nums">
-          {value}
-        </p>
-        {change != null && (
-          <span
-            className={`inline-flex shrink-0 items-center gap-1 font-body text-[0.8125rem] leading-none font-semibold tabular-nums ${toneClass(change)}`}
-          >
-            {formatPercent(change)}
-            <DirectionChevron isUp={change >= 0} />
-          </span>
-        )}
-      </div>
-      <span className="mt-2 block font-body text-[0.625rem] font-medium tracking-[0.09em] text-text-primary/45 uppercase">
-        {label}
-      </span>
-    </div>
   );
 }
 
@@ -148,121 +151,146 @@ function StatRow({ label, value, tone = "text-text-primary" }) {
   );
 }
 
-/** Top Gainers and Top Losers share this card: LTP, price change, both PPLs. */
-function MoverCard({ row }) {
+/**
+ * Type A Card: Futures / Market Report Card.
+ * Uses dynamic key/value first row determined by backend object.key / object.value.
+ */
+function MarketReportCard({ row }) {
   return (
     <CardShell>
-      <CardHeader symbol={row.symbol} />
-      <PriceBlock label="LTP" value={formatPrice(row.price)} change={row.priceChange} />
-      <StatList>
-        <StatRow
-          label="Today's PPL"
-          value={formatSignedCount(row.todayPpl)}
-          tone={toneClass(row.todayPpl)}
-        />
-        <StatRow
-          label="Last 5 Days PPL"
-          value={formatSignedCount(row.fiveDayPpl)}
-          tone={toneClass(row.fiveDayPpl)}
-        />
-      </StatList>
-    </CardShell>
-  );
-}
-
-function Top10Card({ row }) {
-  return (
-    <CardShell>
-      <CardHeader
-        symbol={row.symbol}
-        badge={
-          row.rank != null && (
-            <span className="shrink-0 rounded-md bg-green/10 px-2 py-1 font-body text-[0.6875rem] leading-none font-semibold text-green-dark tabular-nums">
-              #{row.rank}
-            </span>
-          )
-        }
-      />
-      <PriceBlock label="Price" value={formatPrice(row.price)} change={row.priceChange} />
-      <StatList>
-        <StatRow label="Price At Entry" value={formatPrice(row.priceAtEntry)} />
-        <StatRow label="Date At Entry" value={row.dateAtEntry || EMPTY_VALUE} />
-        <StatRow
-          label="5 Days PPL"
-          value={formatSignedCount(row.fiveDayPpl)}
-          tone={toneClass(row.fiveDayPpl)}
-        />
-      </StatList>
-    </CardShell>
-  );
-}
-
-/** Most Active Calls and Puts share this card: strike, trigger, OI and S/W. */
-function OptionActivityCard({ row }) {
-  const remarkTone =
-    row.remark === "S"
-      ? "bg-green/10 text-green-dark"
-      : row.remark === "W"
-        ? "bg-red/8 text-red"
-        : "bg-primary/6 text-primary";
-
-  return (
-    <CardShell>
-      <CardHeader
-        symbol={row.symbol}
-        badge={
-          row.remark && (
-            <span
-              className={`shrink-0 rounded-md px-2 py-1 font-body text-[0.6875rem] leading-none font-semibold ${remarkTone}`}
-              title="S/W"
+      {/* TOP AREA */}
+      <div className="flex items-start justify-between gap-2.5">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <CompanyLogo symbol={row.symbol} />
+          <span className="truncate font-body text-[0.8125rem] font-semibold tracking-[0.03em] text-text-primary uppercase">
+            {row.symbol}
+          </span>
+        </div>
+        <div className="text-right shrink-0">
+          <p className="m-0 font-display text-[1.0625rem] leading-none font-semibold tracking-[-0.01em] text-text-primary tabular-nums">
+            {formatPrice(row.price)}
+          </p>
+          {row.price_change != null && (
+            <div
+              className={`mt-1.5 inline-flex items-center justify-end gap-1 font-body text-[0.75rem] leading-none font-semibold tabular-nums ${toneClass(row.price_change)}`}
             >
-              {row.remark}
-            </span>
-          )
-        }
-      />
-      <PriceBlock label="Price Close" value={formatPrice(row.priceClose)} />
+              {formatPercent(row.price_change)}
+              <DirectionChevron isUp={row.price_change >= 0} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* STAT ROWS */}
       <StatList>
-        <StatRow label="Strike Price" value={formatCount(row.strike)} />
         <StatRow
-          label="Trigger Point"
-          value={
-            row.triggerPoint == null
-              ? EMPTY_VALUE
-              : decimalFormatter.format(row.triggerPoint)
-          }
+          label={row.key || "VALUE"}
+          value={formatCurrencyValue(row.value)}
         />
-        <StatRow label="OI" value={formatCount(row.openInterest)} />
+        <StatRow label="VOLUME" value={formatCount(row.volume)} />
+        <StatRow label="OI" value={formatCount(row.oi)} />
         <StatRow
           label="ΔOI"
-          value={formatSignedCount(row.changeInOi)}
-          tone={toneClass(row.changeInOi)}
+          value={formatSignedCount(row.chg_in_oi)}
+          tone={toneClass(row.chg_in_oi)}
         />
       </StatList>
     </CardShell>
   );
 }
 
-function ReportCard({ variant, row }) {
-  if (variant === "top10") return <Top10Card row={row} />;
-  if (variant === "option") return <OptionActivityCard row={row} />;
-  return <MoverCard row={row} />;
+/**
+ * Type B Card: Most Active Call / Put Option Card.
+ * Header displays Symbol and Price on top line, [strike - CE/PE] + compact Remark badge and Price Change on second line.
+ * Stat rows display TRIGGER PRICE (tp), VOLUME, OI, ΔOI.
+ */
+function OptionReportCard({ row, optionType }) {
+  return (
+    <CardShell>
+      {/* TOP AREA */}
+      <div className="flex items-start justify-between gap-2.5">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <CompanyLogo symbol={row.symbol} />
+          <div className="min-w-0 flex-1">
+            <span className="block truncate font-body text-[0.8125rem] font-semibold tracking-[0.03em] text-text-primary uppercase">
+              {row.symbol}
+            </span>
+            <div className="mt-0.5 flex items-center gap-1.5 min-w-0">
+              {row.strike_pr != null && (
+                <span className="truncate font-body text-[0.6875rem] font-medium text-text-primary/60 tabular-nums">
+                  {formatStrike(row.strike_pr)}{optionType ? ` - ${optionType}` : ""}
+                </span>
+              )}
+              {row.remark && (
+                <span
+                  className={`inline-flex items-center justify-center shrink-0 rounded-[3px] px-1.25 py-[2px] font-body text-[0.5625rem] leading-none font-bold uppercase tracking-wider ${getRemarkStyle(row.remark)}`}
+                  title={`Remark: ${row.remark}`}
+                >
+                  {row.remark}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="text-right shrink-0">
+          <p className="m-0 font-display text-[1.0625rem] leading-none font-semibold tracking-[-0.01em] text-text-primary tabular-nums">
+            {formatPrice(row.price)}
+          </p>
+          {row.price_change != null && (
+            <div
+              className={`mt-1.5 inline-flex items-center justify-end gap-1 font-body text-[0.75rem] leading-none font-semibold tabular-nums ${toneClass(row.price_change)}`}
+            >
+              {formatPercent(row.price_change)}
+              <DirectionChevron isUp={row.price_change >= 0} />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* STAT ROWS */}
+      <StatList>
+        <StatRow
+          label="TRIGGER PRICE"
+          value={formatCurrencyValue(row.tp)}
+        />
+        <StatRow label="VOLUME" value={formatCount(row.volume)} />
+        <StatRow label="OI" value={formatCount(row.oi)} />
+        <StatRow
+          label="ΔOI"
+          value={formatSignedCount(row.chg_in_oi)}
+          tone={toneClass(row.chg_in_oi)}
+        />
+      </StatList>
+    </CardShell>
+  );
 }
 
-function SkeletonCard({ rows }) {
+function ReportCard({ variant, reportId, row }) {
+  if (variant === "typeB") {
+    const optionType = reportId === "mostActiveCall" ? "CE" : reportId === "mostActivePut" ? "PE" : "";
+    return <OptionReportCard row={row} optionType={optionType} />;
+  }
+  return <MarketReportCard row={row} />;
+}
+
+function SkeletonCard() {
   return (
     <div
-      className="flex h-full w-full max-w-[22rem] flex-col rounded-xl border border-primary/8 bg-white px-4 py-[1.125rem] md:max-w-none"
+      className="flex h-full w-full max-w-[24rem] flex-col rounded-xl border border-primary/8 bg-white px-4 py-[1.125rem] md:max-w-none"
       aria-hidden="true"
     >
-      <div className="flex items-center gap-2.5">
-        <div className="h-9 w-9 shrink-0 animate-pulse rounded-full bg-primary/8" />
-        <div className="h-3 w-20 animate-pulse rounded bg-primary/8" />
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <div className="h-9 w-9 shrink-0 animate-pulse rounded-full bg-primary/8" />
+          <div className="h-3 w-16 animate-pulse rounded bg-primary/8" />
+        </div>
+        <div className="flex flex-col items-end gap-1.5">
+          <div className="h-3.5 w-14 animate-pulse rounded bg-primary/8" />
+          <div className="h-3 w-10 animate-pulse rounded bg-primary/6" />
+        </div>
       </div>
-      <div className="mt-4 h-6 w-24 animate-pulse rounded-md bg-primary/8" />
-      <div className="mt-3 h-3 w-16 animate-pulse rounded bg-primary/6" />
       <div className="mt-4 flex flex-col gap-2 border-t border-primary/8 pt-3">
-        {Array.from({ length: rows }, (_, index) => (
+        {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="flex items-center justify-between gap-3">
             <div className="h-2.5 w-20 animate-pulse rounded bg-primary/6" />
             <div className="h-2.5 w-12 animate-pulse rounded bg-primary/8" />
@@ -273,28 +301,77 @@ function SkeletonCard({ rows }) {
   );
 }
 
-const SKELETON_ROWS = { mover: 2, top10: 3, option: 4 };
+/**
+ * Hook to dynamically calculate display limit based on responsive viewport width:
+ * Desktop (>= 1280px): 10 items
+ * Tablet/Medium (>= 768px): 8 items
+ * Mobile (< 768px): 5 items
+ */
+function useDisplayLimit() {
+  const [limit, setLimit] = useState(10);
+
+  useEffect(() => {
+    function updateLimit() {
+      if (window.innerWidth >= 1280) {
+        setLimit(10);
+      } else if (window.innerWidth >= 768) {
+        setLimit(8);
+      } else {
+        setLimit(5);
+      }
+    }
+
+    updateLimit();
+    window.addEventListener("resize", updateLimit);
+    return () => window.removeEventListener("resize", updateLimit);
+  }, []);
+
+  return limit;
+}
+
+const ROW_1_REPORTS = REPORTS.slice(0, 6);
+const ROW_2_REPORTS = REPORTS.slice(6, 10);
 
 export default function ReportsSection() {
   const [activeId, setActiveId] = useState(REPORTS[0].id);
   const [requestKey, setRequestKey] = useState(0);
-  const [state, setState] = useState({ status: "loading", rows: [] });
+  const [state, setState] = useState({ status: "loading", data: null });
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const displayLimit = useDisplayLimit();
 
-  const activeReport = REPORTS.find((report) => report.id === activeId);
+  const activeReport = REPORTS.find((report) => report.id === activeId) || REPORTS[0];
+
+  /* Intersection observer for section entrance reveal */
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSectionVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     let active = true;
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 10000);
 
-    setState({ status: "loading", rows: [] });
+    setState({ status: "loading", data: null });
 
-    fetchReportRows(activeReport, { signal: controller.signal })
-      .then((rows) => {
-        if (active) setState({ status: "success", rows });
+    fetchAllMarketReports({ signal: controller.signal })
+      .then((data) => {
+        if (active) setState({ status: "success", data });
       })
       .catch(() => {
-        if (active) setState({ status: "error", rows: [] });
+        if (active) setState({ status: "error", data: null });
       })
       .finally(() => window.clearTimeout(timeout));
 
@@ -303,16 +380,24 @@ export default function ReportsSection() {
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [activeReport, requestKey]);
+  }, [requestKey]);
 
-  const { status, rows } = state;
+  const { status, data } = state;
+
+  // Selected report array from the single cached API response, sliced to responsive limit.
+  // Backend array order is strictly preserved.
+  const activeRows = data && Array.isArray(data[activeId])
+    ? data[activeId].slice(0, displayLimit)
+    : [];
 
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="reports-heading"
-      className="bg-hero-start/45 px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,7vw,6.5rem)]"
+      className={`reports-section bg-hero-start/45 px-[clamp(1.5rem,5vw,4rem)] pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,7vw,6.5rem)]${sectionVisible ? " is-visible" : ""}`}
     >
-      <div className="mx-auto w-full max-w-[80rem]">
+      <div className="mx-auto w-full max-w-[84rem]">
+      <div className="reports-section__inner-reveal">
         <h2
           id="reports-heading"
           className="m-0 text-center font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.15] font-semibold tracking-[-0.015em] text-text-primary"
@@ -324,44 +409,80 @@ export default function ReportsSection() {
           className="mx-auto mt-3 block h-[3px] w-11 rounded-full bg-green"
         />
 
+        {/* 10 Selectable Reports Navigation — 6 + 4 Row Split */}
         <div
           role="group"
           aria-label="Select a report"
-          className="mx-auto mt-[clamp(1.75rem,3vw,2.5rem)] flex max-w-full gap-1 overflow-x-auto border-b border-primary/10 [scrollbar-width:none] sm:flex-wrap sm:justify-center [&::-webkit-scrollbar]:hidden"
+          className="mx-auto mt-[clamp(1.75rem,3vw,2.5rem)] w-full max-w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {REPORTS.map((report) => {
-            const isActive = report.id === activeId;
+          <div className="flex min-w-[54rem] flex-col md:min-w-0">
+            {/* Row 1: 6 report options — compact centered group */}
+            <div className="flex justify-center gap-[1.2rem]">
+              {ROW_1_REPORTS.map((report) => {
+                const isActive = report.id === activeId;
 
-            return (
-              <button
-                key={report.id}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => setActiveId(report.id)}
-                className={`relative cursor-pointer border-0 bg-transparent px-[clamp(0.75rem,1.6vw,1.15rem)] pt-2 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.08em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                  isActive
-                    ? "text-green-dark"
-                    : "text-text-primary/50 hover:text-primary"
-                }`}
-              >
-                {report.label}
-                <span
-                  className={`absolute inset-x-[clamp(0.75rem,1.6vw,1.15rem)] -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${
-                    isActive ? "bg-green opacity-100" : "opacity-0"
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
-            );
-          })}
+                return (
+                  <button
+                    key={report.id}
+                    type="button"
+                    aria-pressed={isActive}
+                    onClick={() => setActiveId(report.id)}
+                    className={`relative flex items-center justify-center text-center cursor-pointer border-0 bg-transparent px-2 pt-2.5 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.06em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                      isActive
+                        ? "text-green-dark"
+                        : "text-text-primary/50 hover:text-primary"
+                    }`}
+                  >
+                    <span>{report.label}</span>
+                    <span
+                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${
+                        isActive ? "bg-green opacity-100" : "opacity-0"
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Row 2: 4 report options — compact centered group */}
+            <div className="flex justify-center gap-[1.2rem]">
+              {ROW_2_REPORTS.map((report) => {
+                const isActive = report.id === activeId;
+
+                return (
+                  <button
+                    key={report.id}
+                    type="button"
+                    aria-pressed={isActive}
+                    onClick={() => setActiveId(report.id)}
+                    className={`relative flex items-center justify-center text-center cursor-pointer border-0 bg-transparent px-1.5 pt-2.5 pb-3 font-body text-[0.75rem] font-semibold tracking-[0.06em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                      isActive
+                        ? "text-green-dark"
+                        : "text-text-primary/50 hover:text-primary"
+                    }`}
+                  >
+                    <span>{report.label}</span>
+                    <span
+                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-opacity duration-200 ${
+                        isActive ? "bg-green opacity-100" : "opacity-0"
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
+      </div>
 
         {status === "error" ? (
           <p
             className="mt-[clamp(2.5rem,5vw,4rem)] flex flex-wrap items-center justify-center gap-2 text-center text-small text-text-primary/60"
             role="status"
           >
-            Unable to load this report.
+            Unable to load market reports.
             <button
               type="button"
               onClick={() => setRequestKey((key) => key + 1)}
@@ -372,27 +493,26 @@ export default function ReportsSection() {
           </p>
         ) : (
           <div
-            className="mt-[clamp(1.75rem,3vw,2.5rem)] grid grid-cols-1 justify-items-center gap-x-[1.08rem] gap-y-4 md:grid-cols-2 xl:grid-cols-5"
+            key={activeId}
+            className="reports-cards-grid mt-[clamp(1.75rem,3vw,2.5rem)] grid grid-cols-1 justify-items-center gap-x-4 gap-y-4 md:grid-cols-2 xl:grid-cols-5"
             aria-busy={status === "loading"}
           >
             {status === "loading"
-              ? Array.from({ length: MAX_REPORT_ROWS }, (_, index) => (
-                  <SkeletonCard
-                    key={index}
-                    rows={SKELETON_ROWS[activeReport.variant]}
-                  />
+              ? Array.from({ length: displayLimit }, (_, index) => (
+                  <SkeletonCard key={index} />
                 ))
-              : rows.map((row, index) => (
+              : activeRows.map((row, index) => (
                   <ReportCard
-                    key={`${activeReport.id}-${row.symbol}-${index}`}
+                    key={`${activeId}-${row.symbol}-${index}`}
                     variant={activeReport.variant}
+                    reportId={activeId}
                     row={row}
                   />
                 ))}
           </div>
         )}
 
-        {status === "success" && rows.length === 0 && (
+        {status === "success" && activeRows.length === 0 && (
           <p
             className="mt-6 text-center text-small text-text-primary/55"
             role="status"

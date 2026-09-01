@@ -152,7 +152,7 @@ function MarketCard({ card, loading }) {
               }
             />
           ) : (
-            <p className="m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
+            <p className="market-pulse-value m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
               ₹{formatValue(card.value)}
             </p>
           )}
@@ -298,7 +298,7 @@ function MarketConditionCard({ definition, glanceData, loading }) {
               }
             />
           ) : (
-            <p className="m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
+            <p className="market-pulse-value m-0 text-right font-display text-[28px] leading-none font-bold tracking-[-0.01em] text-text-primary tabular-nums">
               {count}
               <span className="ml-[6px] text-[14px] font-semibold tracking-normal text-[#6b7280]">
                 Stocks

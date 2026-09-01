@@ -164,7 +164,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`sticky top-0 z-[105] h-header transition-[background-color,backdrop-filter] duration-300 lg:h-[var(--spacing-header-lg)] ${
+        className={`relative w-full h-header transition-[background-color,backdrop-filter] duration-300 lg:h-[var(--spacing-header-lg)] ${
           scrolled || mobileOpen ? "bg-white/90 backdrop-blur-md" : "bg-transparent"
         }`}
       >

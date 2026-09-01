@@ -258,3 +258,44 @@
     padding: 1.5rem 0 2rem;
   }
 }
+
+/* ── Mobile: reduce oversized value font in Market Pulse cards ── */
+/* Target only the price/count paragraph inside cards at mobile widths. */
+/* The graph/trend images are untouched. */
+
+@media (max-width: 639px) {
+  /* MarketCard and MarketConditionCard share the .market-pulse-value class */
+  .market-pulse-value {
+    font-size: 21px;
+  }
+}
+
+/* ── Heading + Sentimeter reveal animation ── */
+
+.market-data-section__heading,
+.market-data-section__sentimeter {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 500ms ease,
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.market-data-section.is-visible .market-data-section__heading,
+.market-data-section.is-visible .market-data-section__sentimeter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.market-data-section.is-visible .market-data-section__sentimeter {
+  transition-delay: 80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .market-data-section__heading,
+  .market-data-section__sentimeter {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
