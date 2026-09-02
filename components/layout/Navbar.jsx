@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
-const DOWNLOAD_HREF = "#";
+const DOWNLOAD_HREF = "/download";
 const SCROLL_THRESHOLD = 24;
 
 /* Header and hero share one fluid shell so the logo starts on the same left
