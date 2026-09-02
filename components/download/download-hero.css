@@ -3,13 +3,11 @@
    ═══════════════════════════════════════════════════════════════ */
 
 .dl-hero {
-  background: linear-gradient(
-    165deg,
-    #f0feed 0%,
-    #f4fdf6 28%,
-    #f9fefb 58%,
-    #ffffff 100%
-  );
+  background: linear-gradient(165deg,
+      #f0feed 0%,
+      #f4fdf6 28%,
+      #f9fefb 58%,
+      #ffffff 100%);
   border-bottom: 1px solid rgba(33, 169, 71, 0.08);
 }
 
@@ -142,13 +140,27 @@
 
 /* Gentle floating animation */
 @keyframes dl-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 @keyframes dl-float-alt {
-  0%, 100% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-3px) translateX(1.5px); }
+
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-3px) translateX(1.5px);
+  }
 }
 
 /* ── Store Badges ───────────────────────────────────────────── */
@@ -223,6 +235,7 @@
     opacity: 0;
     transform: translateY(18px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -363,6 +376,7 @@
 /* ── Reduced Motion ─────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
+
   .dl-hero__decor-line,
   .dl-hero__decor-dots {
     animation: none;
