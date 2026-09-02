@@ -1,6 +1,4 @@
 import DownloadHero from "@/components/download/DownloadHero";
-import ProductIntelligence from "@/components/download/ProductIntelligence";
-import DownloadCta from "@/components/download/DownloadCta";
 import Footer from "@/components/layout/Footer";
 
 export const metadata = {
@@ -13,8 +11,6 @@ export default function DownloadPage() {
   return (
     <>
       <DownloadHero />
-      {/* <ProductIntelligence /> */}
-      {/* <DownloadCta /> */}
       <Footer />
     </>
   );

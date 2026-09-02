@@ -13,6 +13,10 @@ const NAV_LINKS = [
 
 const EMAIL = "info@richmonks.in";
 
+// App Store and Play Store URLs (ready to receive official store URLs)
+const APP_STORE_URL = "#";
+const PLAY_STORE_URL = "#";
+
 const ADDRESS_LINES = [
   "702, Sunil Enclave",
   "Off Andheri Kurla Road",
@@ -32,6 +36,22 @@ const HEADING =
   "m-0 font-body text-[0.75rem] leading-[1.55] font-semibold tracking-[0.13em] text-[#f5f7f8] uppercase";
 const LINK =
   "font-body text-[0.875rem] text-[#c7d1d6] no-underline transition-colors duration-200 hover:text-green focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-green";
+
+function AppleIcon({ className = "h-3.5 w-3.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11" />
+    </svg>
+  );
+}
+
+function PlayStoreIcon({ className = "h-3.5 w-3.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3.609 1.814 13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92Zm10.89 10.893 2.302 2.302-10.937 6.333 8.635-8.635ZM17.7 8.448l3.142 1.818a1 1 0 0 1 0 1.736L17.7 13.82l-2.534-2.534L17.7 8.448ZM5.864 3.469l10.937 6.333-2.302 2.302-8.635-8.635Z" />
+    </svg>
+  );
+}
 
 function XIcon() {
   return (
@@ -101,7 +121,7 @@ export default function Footer() {
               A quantitative research and algorithmic trading firm.
             </p>
 
-            <ul className="mt-[clamp(1rem,1.8vw,1.25rem)] mb-0 flex list-none items-center gap-2 p-0">
+            <ul className="mt-[clamp(0.875rem,1.4vw,1.1rem)] mb-0 flex list-none items-center gap-3 p-0">
               {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
                 <li key={label}>
                   <a
@@ -114,6 +134,31 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+
+            {/* ── Download App CTA ── */}
+            <div className="mt-[clamp(0.875rem,1.4vw,1.1rem)]">
+              <p className="m-0 font-body text-[0.6875rem] font-semibold tracking-[0.13em] text-[#91a3ac] uppercase">
+                Download the App
+              </p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <a
+                  href={APP_STORE_URL}
+                  aria-label="Download RichMonks on the App Store"
+                  className="inline-flex items-center gap-1.5 rounded-[0.375rem] border border-white/12 bg-white/[0.04] px-2.5 py-1.5 font-body text-[0.75rem] font-medium text-[#c7d1d6] no-underline transition-colors duration-200 hover:border-green/40 hover:bg-green/10 hover:text-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green"
+                >
+                  <AppleIcon className="h-3.5 w-3.5 shrink-0" />
+                  <span>App Store</span>
+                </a>
+                <a
+                  href={PLAY_STORE_URL}
+                  aria-label="Get RichMonks on Google Play"
+                  className="inline-flex items-center gap-1.5 rounded-[0.375rem] border border-white/12 bg-white/[0.04] px-2.5 py-1.5 font-body text-[0.75rem] font-medium text-[#c7d1d6] no-underline transition-colors duration-200 hover:border-green/40 hover:bg-green/10 hover:text-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green"
+                >
+                  <PlayStoreIcon className="h-3.5 w-3.5 shrink-0" />
+                  <span>Google Play</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           <nav aria-label="Footer">
