@@ -1,0 +1,185 @@
+/* ═══════════════════════════════════════════════════════════════
+   PRODUCT INTELLIGENCE — Market Capabilities Grid
+   ═══════════════════════════════════════════════════════════════ */
+
+.dl-intel {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* ── Capability Grid (Desktop: 6 cards in 1 row) ───────────── */
+
+.dl-intel__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(0.75rem, 1.1vw, 1rem);
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+/* ── Capability Card ────────────────────────────────────────── */
+
+.dl-intel__card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(33, 169, 71, 0.14);
+  border-radius: 12px;
+  padding: 1.125rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 250ms ease,
+    border-color 250ms ease,
+    background-color 250ms ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+@media (hover: hover) {
+  .dl-intel__card:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    box-shadow: 0 10px 24px -4px rgba(33, 169, 71, 0.09), 0 3px 8px rgba(0, 0, 0, 0.04);
+    border-color: rgba(33, 169, 71, 0.35);
+  }
+}
+
+/* ── Card Header Row (Icon + Title on the same line) ────────── */
+
+.dl-intel__card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 32px;
+}
+
+/* ── Motif Icon Container ───────────────────────────────────── */
+
+.dl-intel__motif {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(33, 169, 71, 0.08);
+  border: 1px solid rgba(33, 169, 71, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+.dl-intel__card:hover .dl-intel__motif {
+  background: rgba(33, 169, 71, 0.14);
+  border-color: rgba(33, 169, 71, 0.3);
+}
+
+.dl-intel__motif svg {
+  width: 17px;
+  height: 17px;
+  color: var(--color-green);
+}
+
+/* ── Card Title ─────────────────────────────────────────────── */
+
+.dl-intel__card-title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.8125rem, 0.9vw, 0.875rem);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* ── Card Description ───────────────────────────────────────── */
+
+.dl-intel__card-desc {
+  margin: 0.625rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  opacity: 0.72;
+  line-height: 1.5;
+}
+
+/* ── Stagger Reveal ─────────────────────────────────────────── */
+
+.dl-intel__card:nth-child(1) { transition-delay: 0ms; }
+.dl-intel__card:nth-child(2) { transition-delay: 35ms; }
+.dl-intel__card:nth-child(3) { transition-delay: 70ms; }
+.dl-intel__card:nth-child(4) { transition-delay: 105ms; }
+.dl-intel__card:nth-child(5) { transition-delay: 140ms; }
+.dl-intel__card:nth-child(6) { transition-delay: 175ms; }
+
+/* ── Responsive Breakpoints ─────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .dl-intel__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .dl-intel__card {
+    padding: 1.125rem 1.25rem;
+  }
+
+  .dl-intel__card-title {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dl-intel__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
+
+  .dl-intel__card {
+    padding: 1rem;
+  }
+
+  .dl-intel__motif {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dl-intel__card-title {
+    font-size: 0.875rem;
+  }
+
+  .dl-intel__card-desc {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .dl-intel__grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .dl-intel__card {
+    padding: 0.9375rem 1.125rem;
+  }
+
+  .dl-intel__motif {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dl-intel__motif svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .dl-intel__card-title {
+    font-size: 0.9375rem;
+  }
+
+  .dl-intel__card-desc {
+    font-size: 0.8125rem;
+  }
+}
