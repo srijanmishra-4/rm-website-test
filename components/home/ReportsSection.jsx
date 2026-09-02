@@ -16,52 +16,48 @@ const integerFormatter = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0,
 });
 
-const EMPTY_VALUE = "—";
-
 function formatPrice(value) {
-  return value == null ? EMPTY_VALUE : `₹${decimalFormatter.format(value)}`;
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "₹0";
+  return `₹${decimalFormatter.format(num)}`;
 }
 
 function formatPercent(value) {
-  if (value == null) return EMPTY_VALUE;
-  const sign = value >= 0 ? "+" : "-";
-  return `${sign}${decimalFormatter.format(Math.abs(value))}%`;
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num) || num === 0) return "0%";
+  const sign = num > 0 ? "+" : "-";
+  return `${sign}${decimalFormatter.format(Math.abs(num))}%`;
 }
 
 function formatSignedCount(value) {
-  if (value == null) return EMPTY_VALUE;
-  const sign = value >= 0 ? "+" : "-";
-  return `${sign}${integerFormatter.format(Math.abs(value))}`;
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num) || num === 0) return "0";
+  const sign = num > 0 ? "+" : "-";
+  return `${sign}${integerFormatter.format(Math.abs(num))}`;
 }
 
 function formatCount(value) {
-  return value == null ? EMPTY_VALUE : integerFormatter.format(value);
-}
-
-function formatNumber(value) {
-  if (value == null || value === "") return EMPTY_VALUE;
-  const num = Number(value);
-  if (!Number.isFinite(num)) return String(value);
-  return decimalFormatter.format(num);
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "0";
+  return integerFormatter.format(num);
 }
 
 function formatStrike(value) {
-  if (value == null || value === "") return EMPTY_VALUE;
-  const num = Number(value);
-  if (!Number.isFinite(num)) return String(value);
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "0";
   return integerFormatter.format(num);
 }
 
 function formatCurrencyValue(value) {
-  if (value == null || value === "") return EMPTY_VALUE;
-  const num = Number(value);
-  if (!Number.isFinite(num)) return `₹${String(value)}`;
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num)) return "₹0";
   return `₹${decimalFormatter.format(num)}`;
 }
 
 function toneClass(value) {
-  if (value == null) return "text-text-primary";
-  return value >= 0 ? "text-green" : "text-red";
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num) || num === 0) return "text-text-primary";
+  return num > 0 ? "text-green" : "text-red";
 }
 
 function DirectionChevron({ isUp }) {
@@ -79,7 +75,8 @@ function DirectionChevron({ isUp }) {
 
 function CompanyLogo({ symbol }) {
   const [failed, setFailed] = useState(false);
-  const logoUrl = getStockLogoUrl(symbol);
+  const safeSymbol = (symbol != null ? String(symbol) : "0").trim() || "0";
+  const logoUrl = getStockLogoUrl(safeSymbol);
 
   if (!logoUrl || failed) {
     return (
@@ -87,7 +84,7 @@ function CompanyLogo({ symbol }) {
         className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary/6 font-body text-[0.6875rem] font-semibold text-primary"
         aria-hidden="true"
       >
-        {symbol.slice(0, 2).toUpperCase()}
+        {safeSymbol.slice(0, 2).toUpperCase()}
       </span>
     );
   }
@@ -157,43 +154,50 @@ function StatRow({ label, value, tone = "text-text-primary" }) {
  * Uses dynamic key/value first row determined by backend object.key / object.value.
  */
 function MarketReportCard({ row }) {
+  const safeRow = row || {};
+  const symbol = safeRow.symbol || "0";
+  const priceChange = safeRow.price_change ?? 0;
+
   return (
     <CardShell>
       {/* TOP AREA */}
       <div className="flex items-start justify-between gap-2.5">
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <CompanyLogo symbol={row.symbol} />
+          <CompanyLogo symbol={symbol} />
           <span className="truncate font-body text-[0.8125rem] font-semibold tracking-[0.03em] text-text-primary uppercase">
-            {row.symbol}
+            {symbol}
           </span>
         </div>
         <div className="text-right shrink-0">
           <p className="m-0 font-display text-[1.0625rem] leading-none font-semibold tracking-[-0.01em] text-text-primary tabular-nums">
-            {formatPrice(row.price)}
+            {formatPrice(safeRow.price)}
           </p>
-          {row.price_change != null && (
-            <div
-              className={`mt-1.5 inline-flex items-center justify-end gap-1 font-body text-[0.75rem] leading-none font-semibold tabular-nums ${toneClass(row.price_change)}`}
-            >
-              {formatPercent(row.price_change)}
-              <DirectionChevron isUp={row.price_change >= 0} />
-            </div>
-          )}
+          <div
+            className={`mt-1.5 inline-flex items-center justify-end gap-1 font-body text-[0.75rem] leading-none font-semibold tabular-nums ${toneClass(priceChange)}`}
+          >
+            {formatPercent(priceChange)}
+            <DirectionChevron isUp={Number(priceChange) >= 0} />
+          </div>
         </div>
       </div>
 
       {/* STAT ROWS */}
       <StatList>
         <StatRow
-          label={row.key || "VALUE"}
-          value={formatCurrencyValue(row.value)}
+          label={safeRow.key || "VALUE"}
+          value={formatCurrencyValue(safeRow.value)}
         />
-        <StatRow label="VOLUME" value={formatCount(row.volume)} />
-        <StatRow label="OI" value={formatCount(row.oi)} />
+        <StatRow label="VOLUME" value={formatCount(safeRow.volume)} />
+        <StatRow
+          label="ΔVOLUME"
+          value={formatSignedCount(safeRow.chg_in_volume)}
+          tone={toneClass(safeRow.chg_in_volume)}
+        />
+        <StatRow label="OI" value={formatCount(safeRow.oi)} />
         <StatRow
           label="ΔOI"
-          value={formatSignedCount(row.chg_in_oi)}
-          tone={toneClass(row.chg_in_oi)}
+          value={formatSignedCount(safeRow.chg_in_oi)}
+          tone={toneClass(safeRow.chg_in_oi)}
         />
       </StatList>
     </CardShell>
@@ -203,48 +207,48 @@ function MarketReportCard({ row }) {
 /**
  * Type B Card: Most Active Call / Put Option Card.
  * Header displays Symbol and Price on top line, [strike - CE/PE] + compact Remark badge and Price Change on second line.
- * Stat rows display TRIGGER PRICE (tp), VOLUME, OI, ΔOI.
+ * Stat rows display TRIGGER PRICE (tp), VOLUME, ΔVOLUME, OI, ΔOI.
  */
 function OptionReportCard({ row, optionType }) {
+  const safeRow = row || {};
+  const symbol = safeRow.symbol || "0";
+  const priceChange = safeRow.price_change ?? 0;
+
   return (
     <CardShell>
       {/* TOP AREA */}
       <div className="flex items-start justify-between gap-2.5">
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <CompanyLogo symbol={row.symbol} />
+          <CompanyLogo symbol={symbol} />
           <div className="min-w-0 flex-1">
             <span className="block truncate font-body text-[0.8125rem] font-semibold tracking-[0.03em] text-text-primary uppercase">
-              {row.symbol}
+              {symbol}
             </span>
             <div className="mt-0.5 flex items-center gap-1.5 min-w-0">
-              {row.strike_pr != null && (
-                <span className="truncate font-body text-[0.6875rem] font-medium text-text-primary/60 tabular-nums">
-                  {formatStrike(row.strike_pr)}{optionType ? ` - ${optionType}` : ""}
-                </span>
-              )}
-              {row.remark && (
+              <span className="truncate font-body text-[0.6875rem] font-medium text-text-primary/60 tabular-nums">
+                {formatStrike(safeRow.strike_pr)}{optionType ? ` - ${optionType}` : ""}
+              </span>
+              {safeRow.remark ? (
                 <span
-                  className={`inline-flex items-center justify-center shrink-0 rounded-[3px] px-1.25 py-[2px] font-body text-[0.5625rem] leading-none font-bold uppercase tracking-wider ${getRemarkStyle(row.remark)}`}
-                  title={`Remark: ${row.remark}`}
+                  className={`inline-flex items-center justify-center shrink-0 rounded-[3px] px-1.25 py-[2px] font-body text-[0.5625rem] leading-none font-bold uppercase tracking-wider ${getRemarkStyle(safeRow.remark)}`}
+                  title={`Remark: ${safeRow.remark}`}
                 >
-                  {row.remark}
+                  {safeRow.remark}
                 </span>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
         <div className="text-right shrink-0">
           <p className="m-0 font-display text-[1.0625rem] leading-none font-semibold tracking-[-0.01em] text-text-primary tabular-nums">
-            {formatPrice(row.price)}
+            {formatPrice(safeRow.price)}
           </p>
-          {row.price_change != null && (
-            <div
-              className={`mt-1.5 inline-flex items-center justify-end gap-1 font-body text-[0.75rem] leading-none font-semibold tabular-nums ${toneClass(row.price_change)}`}
-            >
-              {formatPercent(row.price_change)}
-              <DirectionChevron isUp={row.price_change >= 0} />
-            </div>
-          )}
+          <div
+            className={`mt-1.5 inline-flex items-center justify-end gap-1 font-body text-[0.75rem] leading-none font-semibold tabular-nums ${toneClass(priceChange)}`}
+          >
+            {formatPercent(priceChange)}
+            <DirectionChevron isUp={Number(priceChange) >= 0} />
+          </div>
         </div>
       </div>
 
@@ -252,14 +256,19 @@ function OptionReportCard({ row, optionType }) {
       <StatList>
         <StatRow
           label="TRIGGER PRICE"
-          value={formatCurrencyValue(row.tp)}
+          value={formatCurrencyValue(safeRow.tp)}
         />
-        <StatRow label="VOLUME" value={formatCount(row.volume)} />
-        <StatRow label="OI" value={formatCount(row.oi)} />
+        <StatRow label="VOLUME" value={formatCount(safeRow.volume)} />
+        <StatRow
+          label="ΔVOLUME"
+          value={formatSignedCount(safeRow.chg_in_volume)}
+          tone={toneClass(safeRow.chg_in_volume)}
+        />
+        <StatRow label="OI" value={formatCount(safeRow.oi)} />
         <StatRow
           label="ΔOI"
-          value={formatSignedCount(row.chg_in_oi)}
-          tone={toneClass(row.chg_in_oi)}
+          value={formatSignedCount(safeRow.chg_in_oi)}
+          tone={toneClass(safeRow.chg_in_oi)}
         />
       </StatList>
     </CardShell>
@@ -291,7 +300,7 @@ function SkeletonCard() {
         </div>
       </div>
       <div className="mt-4 flex flex-col gap-2 border-t border-primary/8 pt-3">
-        {Array.from({ length: 4 }, (_, index) => (
+        {Array.from({ length: 5 }, (_, index) => (
           <div key={index} className="flex items-center justify-between gap-3">
             <div className="h-2.5 w-20 animate-pulse rounded bg-primary/6" />
             <div className="h-2.5 w-12 animate-pulse rounded bg-primary/8" />

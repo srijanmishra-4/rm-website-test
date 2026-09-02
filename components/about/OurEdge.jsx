@@ -96,7 +96,8 @@ export default function OurEdge() {
                 2,400+
               </span>
               <span className="edge-stat-caption">
-                Trading Days of Data Analysed
+                {/* Trading Days of Data Analysed */}
+                Trading Days Analysed
               </span>
             </div>
           </div>
@@ -116,7 +117,7 @@ export default function OurEdge() {
                 75+
               </span>
               <span className="edge-stat-caption">
-                Market &amp; Proprietary Variables built
+                Market &amp; Proprietary Variables tracked
               </span>
             </div>
           </div>
@@ -153,17 +154,15 @@ export default function OurEdge() {
               return (
                 <div
                   key={item.number}
-                  className={`edge-card ${
-                    isGreen ? "edge-card--green" : "edge-card--blue"
-                  }`}
+                  className={`edge-card ${isGreen ? "edge-card--green" : "edge-card--blue"
+                    }`}
                 >
                   {/* Left 4px accent strip */}
                   <div
-                    className={`edge-card-accent-strip ${
-                      isGreen
-                        ? "edge-card-accent-strip--green"
-                        : "edge-card-accent-strip--blue"
-                    }`}
+                    className={`edge-card-accent-strip ${isGreen
+                      ? "edge-card-accent-strip--green"
+                      : "edge-card-accent-strip--blue"
+                      }`}
                   />
 
                   {/* Decorative top-right quarter circle */}
@@ -172,11 +171,10 @@ export default function OurEdge() {
                   {/* Top row: Icon box + Number label */}
                   <div className="edge-card-top-row">
                     <div
-                      className={`edge-card-icon-box ${
-                        isGreen
-                          ? "edge-card-icon-box--green"
-                          : "edge-card-icon-box--blue"
-                      }`}
+                      className={`edge-card-icon-box ${isGreen
+                        ? "edge-card-icon-box--green"
+                        : "edge-card-icon-box--blue"
+                        }`}
                     >
                       <IconComponent size={20} strokeWidth={2} />
                     </div>
