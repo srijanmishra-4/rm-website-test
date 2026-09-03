@@ -91,15 +91,14 @@ export default function DownloadHero() {
             </h1>
 
             <h3
-              id="dl-hero-heading"
-              className="m-0 mt-[clamp(0.875rem,1.6vw,1.25rem)] font-display text-[clamp(2.25rem,4.2vw,3.5rem)] leading-[1.12] font-semibold tracking-[-0.018em] text-text-primary [text-wrap:balance]"
+              className="m-0 mt-[clamp(0.75rem,1.2vw,1rem)] font-display text-[clamp(1.25rem,2.2vw,1.75rem)] leading-[1.35] font-normal tracking-[-0.01em] text-text-primary/85 [text-wrap:balance]"
             >
               But better data, logical systems and the right tools
               <br />
               can help you understand it better.
             </h3>
 
-            <p className="mt-[clamp(0.875rem,1.4vw,1.25rem)] mb-0 max-w-[32rem] text-[clamp(0.9375rem,1.05vw,1.0625rem)] leading-[1.75] text-text-primary/70 [text-wrap:pretty]">
+            <p className="mt-[clamp(0.875rem,1.4vw,1.25rem)] mb-0 max-w-[32rem] text-[clamp(0.9375rem,1.05vw,1.0625rem)] italic leading-[1.75] text-text-primary/70 [text-wrap:pretty]">
               Powerful market intelligence and F&amp;O insights,<br />
               now available wherever you go.
             </p>
