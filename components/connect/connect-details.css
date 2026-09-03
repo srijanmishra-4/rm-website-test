@@ -199,3 +199,16 @@
 .connect-submit-btn:active {
   transform: translateY(0);
 }
+
+.connect-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Hide reCAPTCHA v3 floating badge per Google specification */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+

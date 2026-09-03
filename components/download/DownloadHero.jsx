@@ -85,14 +85,23 @@ export default function DownloadHero() {
               id="dl-hero-heading"
               className="m-0 mt-[clamp(0.875rem,1.6vw,1.25rem)] font-display text-[clamp(2.25rem,4.2vw,3.5rem)] leading-[1.12] font-semibold tracking-[-0.018em] text-text-primary [text-wrap:balance]"
             >
-              Feel the pulse
+              Nobody can predict
               <br />
-              of the market.
+              the market.
             </h1>
 
+            <h3
+              id="dl-hero-heading"
+              className="m-0 mt-[clamp(0.875rem,1.6vw,1.25rem)] font-display text-[clamp(2.25rem,4.2vw,3.5rem)] leading-[1.12] font-semibold tracking-[-0.018em] text-text-primary [text-wrap:balance]"
+            >
+              But better data, logical systems and the right tools
+              <br />
+              can help you understand it better.
+            </h3>
+
             <p className="mt-[clamp(0.875rem,1.4vw,1.25rem)] mb-0 max-w-[32rem] text-[clamp(0.9375rem,1.05vw,1.0625rem)] leading-[1.75] text-text-primary/70 [text-wrap:pretty]">
-              Powerful market intelligence and F&amp;O insights, now available
-              wherever you go.
+              Powerful market intelligence and F&amp;O insights,<br />
+              now available wherever you go.
             </p>
 
             <div className="mt-[clamp(1.75rem,2.8vw,2.5rem)]">
