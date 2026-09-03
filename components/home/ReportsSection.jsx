@@ -36,6 +36,13 @@ function formatSignedCount(value) {
   return `${sign}${integerFormatter.format(Math.abs(num))}`;
 }
 
+function formatSignedPercent(value) {
+  const num = Number(value ?? 0);
+  if (!Number.isFinite(num) || num === 0) return "0%";
+  const sign = num > 0 ? "+" : "-";
+  return `${sign}${decimalFormatter.format(Math.abs(num))}%`;
+}
+
 function formatCount(value) {
   const num = Number(value ?? 0);
   if (!Number.isFinite(num)) return "0";
@@ -189,9 +196,9 @@ function MarketReportCard({ row }) {
         />
         <StatRow label="VOLUME" value={formatCount(safeRow.volume)} />
         <StatRow
-          label="ΔVOLUME"
-          value={formatSignedCount(safeRow.chg_in_volume)}
-          tone={toneClass(safeRow.chg_in_volume)}
+          label="ΔVOLUME (5 Days)"
+          value={formatSignedPercent(safeRow.chg_in_vol)}
+          tone={toneClass(safeRow.chg_in_vol)}
         />
         <StatRow label="OI" value={formatCount(safeRow.oi)} />
         <StatRow
@@ -260,9 +267,9 @@ function OptionReportCard({ row, optionType }) {
         />
         <StatRow label="VOLUME" value={formatCount(safeRow.volume)} />
         <StatRow
-          label="ΔVOLUME"
-          value={formatSignedCount(safeRow.chg_in_volume)}
-          tone={toneClass(safeRow.chg_in_volume)}
+          label="ΔVOLUME (5 Days)"
+          value={formatSignedPercent(safeRow.chg_in_vol)}
+          tone={toneClass(safeRow.chg_in_vol)}
         />
         <StatRow label="OI" value={formatCount(safeRow.oi)} />
         <StatRow
@@ -476,11 +483,10 @@ export default function ReportsSection() {
                     type="button"
                     aria-pressed={isActive}
                     onClick={() => setActiveId(report.id)}
-                    className={`relative flex items-center cursor-pointer border-0 bg-transparent px-2 pt-2 pb-2.5 font-body text-[0.75rem] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                      isLeft ? "justify-self-end text-right" : "justify-self-start text-left"
-                    } ${isActive
-                      ? "text-green-dark"
-                      : "text-text-primary/50 hover:text-primary"
+                    className={`relative flex items-center cursor-pointer border-0 bg-transparent px-2 pt-2 pb-2.5 font-body text-[0.75rem] font-semibold tracking-[0.05em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${isLeft ? "justify-self-end text-right" : "justify-self-start text-left"
+                      } ${isActive
+                        ? "text-green-dark"
+                        : "text-text-primary/50 hover:text-primary"
                       }`}
                   >
                     <span>{report.label}</span>
