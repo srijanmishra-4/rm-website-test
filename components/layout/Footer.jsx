@@ -127,6 +127,9 @@ export default function Footer() {
                   <a
                     href={href}
                     aria-label={label}
+                    {...(href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className="grid h-8 w-8 place-items-center rounded-full border border-white/12 bg-white/[0.05] text-[#c7d1d6] transition-colors duration-200 hover:border-green/40 hover:bg-green/10 hover:text-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green"
                   >
                     <Icon />
@@ -144,6 +147,9 @@ export default function Footer() {
                 <a
                   href={APP_STORE_URL}
                   aria-label="Download RichMonks on the App Store"
+                  {...(APP_STORE_URL.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   className="inline-flex items-center gap-1.5 rounded-[0.375rem] border border-white/12 bg-white/[0.04] px-2.5 py-1.5 font-body text-[0.75rem] font-medium text-[#c7d1d6] no-underline transition-colors duration-200 hover:border-green/40 hover:bg-green/10 hover:text-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green"
                 >
                   <AppleIcon className="h-3.5 w-3.5 shrink-0" />
@@ -152,6 +158,9 @@ export default function Footer() {
                 <a
                   href={PLAY_STORE_URL}
                   aria-label="Get RichMonks on Google Play"
+                  {...(PLAY_STORE_URL.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   className="inline-flex items-center gap-1.5 rounded-[0.375rem] border border-white/12 bg-white/[0.04] px-2.5 py-1.5 font-body text-[0.75rem] font-medium text-[#c7d1d6] no-underline transition-colors duration-200 hover:border-green/40 hover:bg-green/10 hover:text-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green"
                 >
                   <PlayStoreIcon className="h-3.5 w-3.5 shrink-0" />

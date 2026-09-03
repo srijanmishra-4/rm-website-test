@@ -100,10 +100,10 @@ export default function LegalContent() {
             <div className="legal-nav-contact">
               <span className="legal-nav-contact-label">Legal inquiries</span>
               <a
-                href="mailto:connect@richmonks.in"
+                href="mailto:info@richmonks.in"
                 className="legal-nav-contact-link"
               >
-                connect@richmonks.in
+                info@richmonks.in
               </a>
             </div>
           </div>

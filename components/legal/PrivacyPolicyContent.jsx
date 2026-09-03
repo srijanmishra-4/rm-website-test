@@ -118,7 +118,7 @@ export default function PrivacyPolicyContent() {
               Our Privacy Policy (&ldquo;Privacy Policy&rdquo;) is designed to help you understand how we collect, use and safeguard the information you provide to us and to assist you in making informed decisions when using our Service.
             </p>
             <p className="legal-body">
-              For purposes of this Agreement, &ldquo;Site&rdquo; refers to the Company&rsquo;s website, which can be accessed at <span className="font-medium text-[#1a2157]">www.richmonks.com</span> or through our mobile application (&ldquo;App&rdquo;) - RichMonks.
+              For purposes of this Agreement, &ldquo;Site&rdquo; refers to the Company&rsquo;s website, which can be accessed at <span className="font-medium text-[#1a2157]">www.richmonks.in</span> or through our mobile application (&ldquo;App&rdquo;) - RichMonks.
             </p>
             <p className="legal-body">
               &ldquo;Service&rdquo; refers to the Company&rsquo;s services accessed via the Site or App, in which users can view data analytics about specific Stock Markets in India.

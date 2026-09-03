@@ -32,7 +32,7 @@ export default function AboutHero() {
               id="about-hero-heading"
               className="relative m-0 font-display text-[clamp(1.9rem,5.2vw,3.75rem)] leading-[1.1] font-semibold tracking-[-0.018em] text-balance text-text-primary"
             >
-              <span className="block">Where Markets Meet</span>
+              <span className="block">Where Markets Meet</span>{" "}
               <span className="block">
                 Mathematical <span className="text-green">Precision.</span>
               </span>

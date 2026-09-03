@@ -90,13 +90,13 @@ export default function DownloadHero() {
               the market.
             </h1>
 
-            <h3
+            <h2
               className="m-0 mt-[clamp(0.75rem,1.2vw,1rem)] font-display text-[clamp(1.25rem,2.2vw,1.75rem)] leading-[1.35] font-normal tracking-[-0.01em] text-text-primary/85 [text-wrap:balance]"
             >
               But better data, logical systems and the right tools
               <br />
               can help you understand it better.
-            </h3>
+            </h2>
 
             <p className="mt-[clamp(0.875rem,1.4vw,1.25rem)] mb-0 max-w-[32rem] text-[clamp(0.9375rem,1.05vw,1.0625rem)] italic leading-[1.75] text-text-primary/70 [text-wrap:pretty]">
               Powerful market intelligence and F&amp;O insights,<br />
@@ -113,6 +113,9 @@ export default function DownloadHero() {
                   href="#"
                   className="dl-hero__badge"
                   aria-label="Download RichMonks on the App Store"
+                  {...("#".startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                 >
                   <AppleIcon className="dl-hero__badge-icon" />
                   <span className="dl-hero__badge-text">
@@ -125,6 +128,9 @@ export default function DownloadHero() {
                   href="#"
                   className="dl-hero__badge"
                   aria-label="Get RichMonks on Google Play"
+                  {...("#".startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                 >
                   <PlayStoreIcon className="dl-hero__badge-icon" />
                   <span className="dl-hero__badge-text">
